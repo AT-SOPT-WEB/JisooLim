@@ -1,0 +1,37 @@
+body {
+  background-color: rgb(219, 217, 217);
+}
+
+header {
+  text-align: center;
+  background-color: rgb(106, 168, 229);
+  color: white;
+  padding: 10px 0;
+}
+
+main {
+  display: flex;
+  margin: 20px 0;
+  gap: 20px;
+}
+
+section {
+  flex: 2;
+  background-color: white;
+  padding: 20px;
+}
+
+aside {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+}
+
+footer {
+  text-align: center;
+  background-color: rgb(106, 168, 229);
+  height: 30px;
+  color: white;
+  font-size: 15px;
+  padding: 10px 0;
+}
