@@ -30,9 +30,15 @@ header section {
   display: flex;
   align-items: center;
 }
+
 header img {
   width: 25px;
 }
+
+.header-title {
+  font-size: 1.5rem;
+}
+
 .menu img {
   width: 20px;
 }
