@@ -1,0 +1,285 @@
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 헤더 */
+header {
+  width: 100%;
+  height: 60px;
+  padding: 10px 13px;
+  position: fixed;
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  background-color: rgba(251, 236, 178);
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  z-index: 1000;
+}
+
+header section {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+}
+
+header img {
+  width: 25px;
+}
+
+.header-title {
+  font-size: 1.5rem;
+}
+
+.menu img {
+  width: 20px;
+}
+
+/* 메인 */
+main {
+  display: flex;
+  padding-top: 60px;
+}
+
+/* 네비게이션 */
+.navigation {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  width: 160px;
+  background-color: #ffecec;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.menu-list li a {
+  display: block;
+  padding: 12px;
+  background-color: #ffffffbd;
+  color: black;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.menu-list li:first-child a {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.menu-list li:last-child a {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom: none;
+}
+
+.menu-list a:hover {
+  background-color: #a4d4ae;
+  color: white;
+}
+
+/* 메인섹션 */
+.main {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+  margin-top: 20px;
+  padding-right: 20px;
+}
+
+.box-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #d19292;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+section {
+  scroll-margin-top: 70px;
+}
+
+/* 숭이 그리드 */
+.top-title {
+  font-size: 0.9375rem;
+  margin-bottom: 20px;
+}
+
+.top-grid1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 6px;
+  padding: 0 50px;
+}
+
+.top1 {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.top2 {
+  grid-column: 1;
+  grid-row: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.top3 {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.top-grid2 {
+  display: grid;
+  grid-template-columns: 1300fr 748fr;
+  gap: 6px;
+  padding: 0 50px;
+}
+
+.top4 {
+  aspect-ratio: 1300 / 822;
+  width: 100%;
+  object-fit: cover;
+}
+
+.top5 {
+  aspect-ratio: 748 / 822;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* 카드 */
+.card-title {
+  font-size: 0.9375rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  padding: 0 50px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.card-likes {
+  font-size: 0.75rem;
+  margin-top: 5px;
+  color: #555;
+}
+
+.heart-checkbox {
+  display: none;
+}
+
+.heart-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url("svg/heart.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.heart-checkbox:checked + .heart-icon {
+  background-image: url("svg/fullheart.svg");
+}
+
+.banner {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  background-color: #fff;
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+
+.banner-img {
+  display: inline-block;
+  animation: scroll 30s linear infinite;
+}
+
+.banner-img img {
+  width: 200px;
+  height: 200px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* 푸터 */
+footer {
+  background-color: rgba(251, 236, 178, 0.635);
+  padding: 20px 13px;
+  font-size: 0.625rem;
+}
