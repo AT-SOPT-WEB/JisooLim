@@ -41,7 +41,6 @@ body {
 .main {
   background-color: rgba(202, 202, 146, 0.699);
   width: 60%;
-  height: 300px;
   border-radius: 5px;
   margin-top: 20px;
   padding: 20px 10px;
@@ -89,7 +88,33 @@ body {
   color: white;
 }
 
+/* 할 일 목록 리스트 */
 .main__middle {
   margin: 10px 0;
   text-align: end;
+}
+
+.todo-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.todo-table th,
+.todo-table td {
+  border: 1px solid #ccc;
+  padding: 4px;
+  text-align: center;
+}
+
+.todo-table thead {
+  background-color: rgb(104, 154, 95);
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+.todo-table tbody tr {
+  background-color: #f9f9f9;
+  font-size: 15px;
 }
