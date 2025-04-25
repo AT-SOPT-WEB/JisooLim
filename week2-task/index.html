@@ -12,16 +12,16 @@
   </head>
   <body>
     <!-- 상단 버튼 섹션 -->
-    <section class="top">
-      <button class="top__btn">전체</button>
-      <button class="top__btn">완료</button>
-      <button class="top__btn">미완료</button>
+    <section class="filter">
+      <button class="filter__button">전체</button>
+      <button class="filter__button">완료</button>
+      <button class="filter__button">미완료</button>
 
-      <div class="dropdown-container">
-        <button class="top__btn top__btn--dropdown" id="dropdownToggle">
+      <div class="dropdown">
+        <button class="filter__button filter__button--dropdown" id="dropdownToggle">
           중요도 <i class="fas fa-angle-down" id="dropdownIcon"></i>
         </button>
-        <ul class="dropdown-menu" id="priorityMenu">
+        <ul class="dropdown__menu" id="priorityMenu">
           <li data-priority="1">1</li>
           <li data-priority="2">2</li>
           <li data-priority="3">3</li>
@@ -32,26 +32,27 @@
     <section class="main">
       <section class="main__top">
         <input
-          class="main__top--search"
+          class="main__top-input"
           type="text"
           placeholder="할 일을 입력하세요"
         />
-        <div class="priority-select-container">
-          <button class="main__top_btn" id="prioritySelectBtn">
+        <div class="main__top-priority">
+          <button class="main__top-button" id="prioritySelectBtn">
             중요도 선택 <i class="fas fa-angle-down"></i>
           </button>
 
-          <ul class="dropdown-menu" id="prioritySelectMenu">
-            <li data-priority="1">1</li>
-            <li data-priority="2">2</li>
-            <li data-priority="3">3</li>
+          <ul class="main__top-menu">
+            <li class="main__top-menu-item" data-priority="1">1</li>
+            <li class="main__top-menu-item" data-priority="2">2</li>
+            <li class="main__top-menu-item" data-priority="3">3</li>
           </ul>
+          
         </div>
-        <button class="main__top_btn">추가</button>
+        <button class="main__top-button">추가</button>
       </section>
       <section class="main__middle">
-        <button class="middle__btn">삭제</button>
-        <button class="middle__btn">완료</button>
+        <button class="main__middle-button">삭제</button>
+        <button class="main__middle-button">완료</button>
       </section>
       <!-- 할 일 목록 -->
       <section class="main__middle">

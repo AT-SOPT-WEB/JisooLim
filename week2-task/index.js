@@ -4,18 +4,18 @@ const STORAGE_KEY = "todoList";
 let todos = loadTodos();
 
 const tbody = document.getElementById("todoTableBody");
-const topButtons = document.querySelectorAll(".top__btn");
+const topButtons = document.querySelectorAll(".filter__button");
 const dropdownToggle = document.getElementById("dropdownToggle");
 const priorityMenu = document.getElementById("priorityMenu");
 const prioritySelectBtn = document.getElementById("prioritySelectBtn");
-const prioritySelectMenu = document.getElementById("prioritySelectMenu");
-const inputField = document.querySelector(".main__top--search");
-const addButton = document.querySelectorAll(".main__top_btn")[1];
+const prioritySelectMenu = document.querySelector(".main__top-menu");
+const inputField = document.querySelector(".main__top-input");
+const addButton = document.querySelectorAll(".main__top-button")[1];
 const selectAllCheckbox = document.querySelector(
   '.todo-table thead input[type="checkbox"]'
 );
-const deleteButton = document.querySelectorAll(".middle__btn")[0];
-const completeButton = document.querySelectorAll(".middle__btn")[1];
+const deleteButton = document.querySelectorAll(".main__middle-button")[0];
+const completeButton = document.querySelectorAll(".main__middle-button")[1];
 const completeModal = document.getElementById("completeModal");
 const closeModalBtn = document.getElementById("closeModalBtn");
 
@@ -44,11 +44,10 @@ function renderTodos(todoList) {
     `;
     tbody.appendChild(row);
   });
-
   addDragEvents();
 }
 
-// 필터링 기능
+// 필터링
 function filterTodos(type, value) {
   switch (type) {
     case "all":
@@ -94,7 +93,6 @@ function addDragEvents() {
       e.preventDefault();
       const rect = row.getBoundingClientRect();
       const offset = e.clientY - rect.top;
-
       if (offset < rect.height / 2) {
         row.classList.add("drag-over-top");
         row.classList.remove("drag-over-bottom");
@@ -111,23 +109,17 @@ function addDragEvents() {
     row.addEventListener("drop", (e) => {
       e.preventDefault();
       row.classList.remove("drag-over-top", "drag-over-bottom");
-
       const rows = Array.from(tbody.querySelectorAll("tr"));
       const targetRow = e.currentTarget;
       const targetIndex = rows.indexOf(targetRow);
-
       const rect = targetRow.getBoundingClientRect();
       const offset = e.clientY - rect.top;
       const isAbove = offset < rect.height / 2;
-
       let insertIndex = isAbove ? targetIndex : targetIndex + 1;
-
       if (draggedIndex < insertIndex) insertIndex--;
       if (insertIndex === draggedIndex || insertIndex === draggedIndex + 1) return;
-
       const [moved] = todos.splice(draggedIndex, 1);
       todos.splice(insertIndex, 0, moved);
-
       saveTodos(todos);
       renderTodos(todos);
     });
@@ -138,7 +130,7 @@ function addDragEvents() {
   });
 }
 
-// 우선순위 드롭다운
+// 중요도 필터
 dropdownToggle.addEventListener("click", () => {
   const isOpen = priorityMenu.style.display === "block";
   priorityMenu.style.display = isOpen ? "none" : "block";
@@ -158,6 +150,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
+// 중요도 선택 드롭다운
 prioritySelectBtn.addEventListener("click", () => {
   const isOpen = prioritySelectMenu.style.display === "block";
   prioritySelectMenu.style.display = isOpen ? "none" : "block";
@@ -171,26 +164,22 @@ prioritySelectMenu.querySelectorAll("li").forEach((li) => {
   });
 });
 
-// 할 일 추가
+// 추가 기능
 addButton.addEventListener("click", () => {
   const title = inputField.value.trim();
-
   if (!title || selectedPriority === null) {
     alert("할 일과 중요도를 모두 입력해주세요.");
     return;
   }
-
   const newTodo = {
     id: todos.length + 1,
     title,
     completed: false,
     priority: selectedPriority,
   };
-
   todos.push(newTodo);
   saveTodos(todos);
   renderTodos(todos);
-
   inputField.value = "";
   selectedPriority = null;
   prioritySelectBtn.innerHTML = `중요도 선택 <i class="fas fa-angle-down"></i>`;
@@ -204,55 +193,45 @@ selectAllCheckbox.addEventListener("change", () => {
   itemCheckboxes.forEach((cb) => (cb.checked = selectAllCheckbox.checked));
 });
 
-// 삭제 기능
+// 삭제
 deleteButton.addEventListener("click", () => {
   const checkboxes = tbody.querySelectorAll('input[type="checkbox"]');
   const rowsToDelete = [];
-
   checkboxes.forEach((checkbox, index) => {
     if (checkbox.checked) rowsToDelete.push(index);
   });
-
   if (rowsToDelete.length === 0) {
     alert("삭제할 항목을 선택하세요.");
     return;
   }
-
   rowsToDelete.reverse().forEach((idx) => {
     todos.splice(idx, 1);
   });
-
   saveTodos(todos);
   renderTodos(todos);
 });
 
-// 완료 기능
+// 완료
 completeButton.addEventListener("click", () => {
   const checkboxes = tbody.querySelectorAll('input[type="checkbox"]');
   const selectedIndexes = [];
-
   checkboxes.forEach((checkbox, index) => {
     if (checkbox.checked) selectedIndexes.push(index);
   });
-
   if (selectedIndexes.length === 0) {
     alert("완료할 항목을 선택하세요.");
     return;
   }
-
   const hasCompletedAlready = selectedIndexes.some(
     (idx) => todos[idx].completed
   );
-
   if (hasCompletedAlready) {
     completeModal.style.display = "flex";
     return;
   }
-
   selectedIndexes.forEach((idx) => {
     todos[idx].completed = true;
   });
-
   saveTodos(todos);
   renderTodos(todos);
 });

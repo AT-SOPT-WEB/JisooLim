@@ -6,7 +6,7 @@ body {
   padding-top: 50px;
 }
 
-.top {
+.filter {
   display: flex;
   justify-content: flex-start;
   width: 60%;
@@ -14,7 +14,7 @@ body {
   gap: 6px;
 }
 
-.top__btn {
+.filter__button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -28,20 +28,20 @@ body {
   cursor: pointer;
 }
 
-.top__btn--dropdown {
+.filter__button--dropdown {
   background-color: rgb(104, 154, 95);
   gap: 5px;
 }
 
-.top__btn:not(.top__btn--dropdown) {
+.filter__button:not(.filter__button--dropdown) {
   background-color: rgb(229, 201, 79);
 }
 
-.dropdown-container {
+.dropdown {
   position: relative;
 }
 
-.dropdown-menu {
+.dropdown__menu {
   position: absolute;
   display: none;
   width: 80px;
@@ -49,18 +49,19 @@ body {
   margin: 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: white;
+  background-color: rgb(104, 154, 95);
   list-style: none;
   z-index: 100;
 }
 
-.dropdown-menu li {
+.dropdown__menu li {
   padding: 5px 10px;
+  color: white;
   text-align: center;
   cursor: pointer;
 }
 
-.dropdown-menu li:hover {
+.dropdown__menu li:hover {
   background-color: #f0f0f0;
 }
 
@@ -79,14 +80,14 @@ body {
   justify-content: space-between;
 }
 
-.main__top--search {
+.main__top-input {
   width: 70%;
   padding: 8px 5px;
   border: none;
   border-radius: 5px;
 }
 
-.main__top_btn {
+.main__top-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -104,34 +105,37 @@ body {
 }
 
 /* 중요도 선택 */
-.priority-select-container {
+.main__top-priority {
   position: relative;
 }
-
-#prioritySelectMenu {
+.main__top-menu {
   position: absolute;
   display: none;
   width: 100%;
   padding: 5px 0;
+  margin: 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: white;
+  background-color: rgb(104, 154, 95);
   list-style: none;
   z-index: 100;
+  overflow: hidden; /* radius 자연스럽게 유지 */
 }
 
-#prioritySelectMenu li {
+.main__top-menu-item {
   padding: 5px 10px;
+  color: white;
   text-align: center;
   cursor: pointer;
 }
 
-#prioritySelectMenu li:hover {
+.main__top-menu-item:hover {
   background-color: #f0f0f0;
+  color: rgb(104, 154, 95);
 }
 
 /* 삭제, 완료 버튼 */
-.middle__btn {
+.main__middle-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
