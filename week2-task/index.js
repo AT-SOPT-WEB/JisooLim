@@ -1,6 +1,8 @@
 import { todos as defaultTodos } from "./todo.js";
 
 const STORAGE_KEY = "todoList";
+let todos = loadTodos();
+
 const tbody = document.getElementById("todoTableBody");
 const topButtons = document.querySelectorAll(".top__btn");
 const dropdownToggle = document.getElementById("dropdownToggle");
@@ -9,24 +11,31 @@ const prioritySelectBtn = document.getElementById("prioritySelectBtn");
 const prioritySelectMenu = document.getElementById("prioritySelectMenu");
 const inputField = document.querySelector(".main__top--search");
 const addButton = document.querySelectorAll(".main__top_btn")[1];
+const selectAllCheckbox = document.querySelector(
+  '.todo-table thead input[type="checkbox"]'
+);
+const deleteButton = document.querySelectorAll(".middle__btn")[0];
+const completeButton = document.querySelectorAll(".middle__btn")[1];
+const completeModal = document.getElementById("completeModal");
+const closeModalBtn = document.getElementById("closeModalBtn");
 
 let selectedPriority = null;
 
 function loadTodos() {
   const stored = localStorage.getItem(STORAGE_KEY);
-  return stored ? JSON.parse(stored) : defaultTodos;
+  return stored ? JSON.parse(stored) : [...defaultTodos];
 }
 
 function saveTodos(todos) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
 }
 
-// 할 일 렌더링
 function renderTodos(todoList) {
   tbody.innerHTML = "";
-  todoList.forEach((todo) => {
+  todoList.forEach((todo, i) => {
     const row = document.createElement("tr");
-
+    row.setAttribute("data-index", i);
+    row.setAttribute("draggable", "true");
     row.innerHTML = `
       <td><input type="checkbox" /></td>
       <td>${todo.priority}</td>
@@ -35,9 +44,11 @@ function renderTodos(todoList) {
     `;
     tbody.appendChild(row);
   });
+
+  addDragEvents();
 }
 
-// 상단 필터링 버튼
+// 필터링 기능
 function filterTodos(type, value) {
   switch (type) {
     case "all":
@@ -55,10 +66,6 @@ function filterTodos(type, value) {
   }
 }
 
-const todos = loadTodos();
-saveTodos(todos);
-renderTodos(todos);
-
 topButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const text = button.innerText.trim();
@@ -68,12 +75,75 @@ topButtons.forEach((button) => {
   });
 });
 
+// 드래그 앤 드롭
+function addDragEvents() {
+  const rows = Array.from(tbody.querySelectorAll("tr"));
+  let draggedRow = null;
+  let draggedIndex = null;
+
+  rows.forEach((row) => {
+    row.setAttribute("draggable", "true");
+
+    row.addEventListener("dragstart", () => {
+      draggedRow = row;
+      draggedIndex = Array.from(tbody.children).indexOf(draggedRow);
+      row.classList.add("dragging");
+    });
+
+    row.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      const rect = row.getBoundingClientRect();
+      const offset = e.clientY - rect.top;
+
+      if (offset < rect.height / 2) {
+        row.classList.add("drag-over-top");
+        row.classList.remove("drag-over-bottom");
+      } else {
+        row.classList.add("drag-over-bottom");
+        row.classList.remove("drag-over-top");
+      }
+    });
+
+    row.addEventListener("dragleave", () => {
+      row.classList.remove("drag-over-top", "drag-over-bottom");
+    });
+
+    row.addEventListener("drop", (e) => {
+      e.preventDefault();
+      row.classList.remove("drag-over-top", "drag-over-bottom");
+
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const targetRow = e.currentTarget;
+      const targetIndex = rows.indexOf(targetRow);
+
+      const rect = targetRow.getBoundingClientRect();
+      const offset = e.clientY - rect.top;
+      const isAbove = offset < rect.height / 2;
+
+      let insertIndex = isAbove ? targetIndex : targetIndex + 1;
+
+      if (draggedIndex < insertIndex) insertIndex--;
+      if (insertIndex === draggedIndex || insertIndex === draggedIndex + 1) return;
+
+      const [moved] = todos.splice(draggedIndex, 1);
+      todos.splice(insertIndex, 0, moved);
+
+      saveTodos(todos);
+      renderTodos(todos);
+    });
+
+    row.addEventListener("dragend", () => {
+      row.classList.remove("dragging", "drag-over-top", "drag-over-bottom");
+    });
+  });
+}
+
+// 우선순위 드롭다운
 dropdownToggle.addEventListener("click", () => {
   const isOpen = priorityMenu.style.display === "block";
   priorityMenu.style.display = isOpen ? "none" : "block";
 });
 
-// 중요도 선택
 priorityMenu.querySelectorAll("li").forEach((li) => {
   li.addEventListener("click", () => {
     const priority = parseInt(li.dataset.priority);
@@ -101,7 +171,7 @@ prioritySelectMenu.querySelectorAll("li").forEach((li) => {
   });
 });
 
-// 추가 버튼 기능능
+// 할 일 추가
 addButton.addEventListener("click", () => {
   const title = inputField.value.trim();
 
@@ -127,9 +197,6 @@ addButton.addEventListener("click", () => {
 });
 
 // 전체 선택 체크박스
-const selectAllCheckbox = document.querySelector(
-  '.todo-table thead input[type="checkbox"]'
-);
 selectAllCheckbox.addEventListener("change", () => {
   const itemCheckboxes = document.querySelectorAll(
     '.todo-table tbody input[type="checkbox"]'
@@ -137,16 +204,13 @@ selectAllCheckbox.addEventListener("change", () => {
   itemCheckboxes.forEach((cb) => (cb.checked = selectAllCheckbox.checked));
 });
 
-// 삭제 버튼 기능
-const deleteButton = document.querySelectorAll(".middle__btn")[0];
+// 삭제 기능
 deleteButton.addEventListener("click", () => {
   const checkboxes = tbody.querySelectorAll('input[type="checkbox"]');
   const rowsToDelete = [];
 
   checkboxes.forEach((checkbox, index) => {
-    if (checkbox.checked) {
-      rowsToDelete.push(index);
-    }
+    if (checkbox.checked) rowsToDelete.push(index);
   });
 
   if (rowsToDelete.length === 0) {
@@ -162,19 +226,13 @@ deleteButton.addEventListener("click", () => {
   renderTodos(todos);
 });
 
-// 완료 버튼 기능
-const completeButton = document.querySelectorAll(".middle__btn")[1];
-const completeModal = document.getElementById("completeModal");
-const closeModalBtn = document.getElementById("closeModalBtn");
-
+// 완료 기능
 completeButton.addEventListener("click", () => {
   const checkboxes = tbody.querySelectorAll('input[type="checkbox"]');
   const selectedIndexes = [];
 
   checkboxes.forEach((checkbox, index) => {
-    if (checkbox.checked) {
-      selectedIndexes.push(index);
-    }
+    if (checkbox.checked) selectedIndexes.push(index);
   });
 
   if (selectedIndexes.length === 0) {
@@ -202,3 +260,6 @@ completeButton.addEventListener("click", () => {
 closeModalBtn.addEventListener("click", () => {
   completeModal.style.display = "none";
 });
+
+saveTodos(todos);
+renderTodos(todos);
