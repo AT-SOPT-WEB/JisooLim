@@ -103,8 +103,13 @@ const GlobalStyle = css`
   section {
     display: block;
   }
+  html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+  }
   body {
     line-height: 1;
+    font-size: 1.6rem;
   }
   ol,
   ul {
