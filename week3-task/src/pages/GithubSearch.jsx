@@ -13,6 +13,7 @@ import {
   followBox,
 } from "./GithubSearch.style";
 
+
 const GithubSearch = () => {
   const theme = useTheme();
   const [searchInput, setSearchInput] = useState("");
