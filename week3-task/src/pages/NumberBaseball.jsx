@@ -5,7 +5,7 @@ import {
   errorText,
   historyList,
   historyCard,
-} from "./NumberBaseball.style";
+} from "../styles/NumberBaseball.style";
 import { useState, useEffect, useRef } from "react";
 
 // 정답 숫자 생성

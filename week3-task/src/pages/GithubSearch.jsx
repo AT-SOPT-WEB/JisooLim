@@ -16,7 +16,7 @@ import {
   deleteButton,
   recentSearchContainer,
   recentSearchTitle,
-} from "./GithubSearch.style";
+} from "../styles/GithubSearch.style";
 
 const RECENT_KEY = "recentSearches";
 

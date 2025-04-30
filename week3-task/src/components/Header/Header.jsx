@@ -1,5 +1,10 @@
 import { useTheme } from "@emotion/react";
-import { headerContainer, buttonGroup, btn, activeBtn } from "./Header.style";
+import {
+  headerContainer,
+  buttonGroup,
+  btn,
+  activeBtn,
+} from "../../styles/Header.style";
 
 const Header = ({ onMenuClick, selectedMenu }) => {
   const theme = useTheme();
