@@ -9,21 +9,24 @@ export const container = css`
   padding-top: 7rem;
 `;
 
+// 검색창
 export const searchBox = (theme) => css`
   width: 60rem;
   padding: 2rem;
   border: 0.2rem solid ${theme.colors.green01};
   border-radius: 2rem;
   background-color: ${theme.colors.green03};
+  margin-bottom: 2rem;
 `;
 
+// 검색 결과 카드
 export const cardStyle = (theme) => css`
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 60rem;
-  margin-top: 3rem;
+  margin-top: 2rem;
   padding: 2rem;
   text-align: center;
   background-color: ${theme.colors.green02};
@@ -101,4 +104,46 @@ export const followBox = (theme) => css`
     font-size: 1.8rem;
     margin: 0;
   }
+`;
+
+// 최근 검색어
+export const recentSearchContainer = css`
+  width: 64rem;
+
+  margin-bottom: 2rem;
+`;
+
+export const recentSearchTitle = css`
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+`;
+
+export const recentSearchList = css`
+  display: flex;
+  gap: 1rem;
+`;
+
+export const recentSearchItem = (theme) => css`
+  display: flex;
+  align-items: center;
+  border: 1.5px solid ${theme.colors.green01};
+  border-radius: 1.5rem;
+  padding: 0.3rem 2rem;
+  font-size: 1.6rem;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+`;
+
+export const deleteButton = css`
+  background: none;
+  border: none;
+  font-size: 3rem;
+  cursor: pointer;
+  color: #e74c3c;
+  margin-left: 1rem;
+  padding: 0;
+  line-height: 1;
 `;

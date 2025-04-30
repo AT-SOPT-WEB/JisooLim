@@ -30,6 +30,8 @@ function getStrikeAndBall(input, answer) {
 }
 
 const ANSWER_MESSAGE = "🎉 정답입니다! 3초 뒤에 게임이 리셋됩니다.";
+const GAME_OVER_MESSAGE =
+  "😫 10번을 넘겨서 실패하였습니다. 게임이 초기화됩니다.";
 
 const NumberBaseball = () => {
   const theme = useTheme();
@@ -45,9 +47,7 @@ const NumberBaseball = () => {
     const answer = generateAnswer();
     setAnswer(answer);
     console.log("정답:", answer);
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
+    return () => clearTimeout(timeoutRef.current);
   }, []);
 
   const handleChange = (e) => {
@@ -58,6 +58,7 @@ const NumberBaseball = () => {
     if (nums.length === 3) {
       const digits = nums.split("");
       const isDiff = new Set(digits).size === 3;
+
       if (!isDiff) {
         setError(true);
         setResult("");
@@ -66,33 +67,44 @@ const NumberBaseball = () => {
         const { strike, ball } = getStrikeAndBall(nums, answer);
         const resultText =
           strike === 3 ? ANSWER_MESSAGE : `${strike} 스트라이크 ${ball} 볼`;
-
         setResult(resultText);
 
         // 기록 추가
-        setHistory((prev) => [
-          ...prev,
-          { value: nums, result: `${strike}S ${ball}B` },
-        ]);
+        setHistory((prev) => {
+          const newHistory = [
+            ...prev,
+            { value: nums, result: `${strike}S ${ball}B` },
+          ];
+
+          if (strike !== 3 && newHistory.length >= 10) {
+            setResult(GAME_OVER_MESSAGE);
+            setIsGame(true);
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(resetGame, 5000);
+          }
+          return newHistory;
+        });
 
         // 정답이면 3초 후 초기화
         if (strike === 3) {
           setIsGame(true);
-          timeoutRef.current = setTimeout(() => {
-            setValue("");
-            setError(false);
-            setResult("");
-            setHistory([]);
-            const newAnswer = generateAnswer();
-            setAnswer(newAnswer);
-            setIsGame(false);
-          }, 3000);
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(resetGame, 3000);
         }
       }
     } else {
       setError(false);
       setResult("");
     }
+  };
+
+  const resetGame = () => {
+    setValue("");
+    setError(false);
+    setResult("");
+    setHistory([]);
+    setAnswer(generateAnswer());
+    setIsGame(false);
   };
 
   return (
