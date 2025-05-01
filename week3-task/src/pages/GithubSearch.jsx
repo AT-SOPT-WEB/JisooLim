@@ -1,49 +1,30 @@
 import { useTheme } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   container,
   searchBox,
-  cardStyle,
-  closeButton,
-  profileImg,
-  profileLink,
-  username,
-  nickname,
-  followStyle,
-  followBox,
-  recentSearchList,
-  recentSearchItem,
-  deleteButton,
-  recentSearchContainer,
-  recentSearchTitle,
+  spinner,
+  errorMessage,
 } from "../styles/GithubSearch.style";
-
-const RECENT_KEY = "recentSearches";
+import useRecentSearches from "../hooks/useRecentSearchs";
+import RecentSearches from "../components/GithubSearch/RecentSearches";
+import GithubUserCard from "../components/GithubSearch/GithubUserCard";
 
 const GithubSearch = () => {
   const theme = useTheme();
   const [searchInput, setSearchInput] = useState("");
   const [userInfo, setUserInfo] = useState({ status: "idle", data: null });
-  const [recentSearches, setRecentSearches] = useState([]);
+  const { recentSearches, addSearch, deleteSearch } = useRecentSearches();
 
-  // 최근 검색어 불러오기
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem(RECENT_KEY)) || [];
-    setRecentSearches(stored);
-  }, []);
+  const handleChangeInput = (e) => setSearchInput(e.target.value);
 
-  const handleChangeInput = (e) => {
-    setSearchInput(e.target.value);
-  };
-
-  // 엔터치면 검색
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && searchInput.trim()) {
       fetchUserInfo(searchInput.trim());
     }
   };
 
-  // Github 유저 정보 가져오기
+  // 깃허브 유저 정보 가져오기
   const fetchUserInfo = async (username) => {
     setUserInfo({ status: "pending", data: null });
     try {
@@ -51,13 +32,7 @@ const GithubSearch = () => {
       if (!response.ok) throw new Error("Network error");
       const data = await response.json();
       setUserInfo({ status: "resolved", data });
-
-      // 최근 검색어 저장
-      let updated = recentSearches.filter((item) => item !== username);
-      updated.push(username);
-      if (updated.length > 3) updated = updated.slice(updated.length - 3);
-      setRecentSearches(updated);
-      localStorage.setItem(RECENT_KEY, JSON.stringify(updated));
+      addSearch(username);
     } catch {
       setUserInfo({ status: "rejected", data: null });
     }
@@ -69,22 +44,10 @@ const GithubSearch = () => {
     fetchUserInfo(username);
   };
 
-  // 최근 검색어 삭제
-  const handleDeleteSearch = (username) => {
-    const updated = recentSearches.filter((item) => item !== username);
-    setRecentSearches(updated);
-    localStorage.setItem(RECENT_KEY, JSON.stringify(updated));
-  };
-
-  // 검색 결과 카드 닫기
+  // 유저 카드 닫기
   const handleCloseCard = () => {
     setUserInfo({ status: "idle", data: null });
     setSearchInput("");
-  };
-
-  const linkProps = {
-    target: "_blank",
-    rel: "noopener noreferrer",
   };
 
   const { status, data } = userInfo;
@@ -104,67 +67,28 @@ const GithubSearch = () => {
       />
 
       {/* 최근 검색어 */}
-      {recentSearches.length > 0 && (
-        <div css={recentSearchContainer}>
-          <div css={recentSearchTitle}>최근 검색어</div>
-          <div css={recentSearchList}>
-            {recentSearches.map((search) => (
-              <div
-                key={search}
-                css={recentSearchItem(theme)}
-                tabIndex={0}
-                onClick={() => handleRecentClick(search)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ")
-                    handleRecentClick(search);
-                }}
-              >
-                <span>{search}</span>
-                <button
-                  type="button"
-                  css={deleteButton}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteSearch(search);
-                  }}
-                  aria-label={`${search} 검색어 삭제`}
-                  tabIndex={-1}
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
+      <RecentSearches
+        searches={recentSearches}
+        onClick={handleRecentClick}
+        onDelete={deleteSearch}
+        theme={theme}
+      />
+
+      {/* 로딩중 */}
+      {status === "pending" && (
+        <div css={spinner(theme)} aria-label="로딩 중" />
+      )}
+
+      {/* 결과 없을 때 */}
+      {status === "rejected" && (
+        <div css={errorMessage}>
+          결과를 찾을 수 없습니다. 다시 시도해 주세요.
         </div>
       )}
 
       {/* 결과 카드 */}
       {status === "resolved" && (
-        <section css={cardStyle(theme)}>
-          <button type="button" css={closeButton} onClick={handleCloseCard}>
-            ❌
-          </button>
-          <a href={data.html_url} {...linkProps}>
-            <img src={data.avatar_url} alt="프로필" css={profileImg(theme)} />
-          </a>
-          <h1 css={username}>
-            <a href={data.html_url} css={profileLink(theme)} {...linkProps}>
-              {data.name}
-            </a>
-          </h1>
-          <h2 css={nickname}>{data.login}</h2>
-          <p>{data.bio}</p>
-          <dl css={followStyle}>
-            <div css={followBox(theme)}>
-              <dt>Followers</dt>
-              <dd>{data.followers}</dd>
-            </div>
-            <div css={followBox(theme)}>
-              <dt>Following</dt>
-              <dd>{data.following}</dd>
-            </div>
-          </dl>
-        </section>
+        <GithubUserCard data={data} onClose={handleCloseCard} theme={theme} />
       )}
     </div>
   );

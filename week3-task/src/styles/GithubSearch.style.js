@@ -137,13 +137,39 @@ export const recentSearchItem = (theme) => css`
   white-space: nowrap;
 `;
 
-export const deleteButton = css`
+export const deleteButton = (theme) => css`
   background: none;
   border: none;
   font-size: 3rem;
   cursor: pointer;
-  color: #e74c3c;
+  color: ${theme.colors.red};
   margin-left: 1rem;
   padding: 0;
   line-height: 1;
+`;
+
+// 분기 처리
+export const spinner = (theme) => css`
+  margin-top: 4rem;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid ${theme.colors.green01};
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 0.7s linear infinite;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+export const errorMessage = (theme) => css`
+  margin-top: 4rem;
+  color: ${theme.colors.red};
+  font-size: 2rem;
+  font-weight: bold;
 `;
