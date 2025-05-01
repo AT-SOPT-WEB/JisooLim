@@ -1,36 +1,14 @@
 import { useTheme } from "@emotion/react";
 import { useState, useEffect, useRef } from "react";
 import { container } from "../styles/NumberBaseball.style";
+import { DIGIT_LENGTH, generateAnswer, getStrikeAndBall } from "../utils/numberBaseball";
 import BaseballInput from "../components/NumberBaseball/BaseballInput";
 import HistoryList from "../components/NumberBaseball/HistoryList";
 
-const DIGIT_LENGTH = 3;
 const MAX_ATTEMPTS = 10;
 const ANSWER_MESSAGE = "🎉 정답입니다! 3초 뒤에 게임이 리셋됩니다.";
 const GAME_OVER_MESSAGE =
   "😫 10번을 넘겨서 실패하였습니다. 게임이 초기화됩니다.";
-
-
-// 정답 숫자 생성
-const generateAnswer = () => {
-  const nums = [];
-  while (nums.length < DIGIT_LENGTH) {
-    const n = Math.floor(Math.random() * 10).toString();
-    if (!nums.includes(n)) nums.push(n);
-  }
-  return nums.join("");
-};
-
-// 게임 계산
-function getStrikeAndBall(input, answer) {
-  let strike = 0,
-    ball = 0;
-  for (let i = 0; i < DIGIT_LENGTH; i++) {
-    if (input[i] === answer[i]) strike++;
-    else if (answer.includes(input[i])) ball++;
-  }
-  return { strike, ball };
-}
 
 const NumberBaseball = () => {
   const theme = useTheme();
@@ -53,6 +31,7 @@ const NumberBaseball = () => {
   const handleChange = (e) => {
     const onlyNums = e.target.value.replace(/[^0-9]/g, "");
     const nums = onlyNums.slice(0, DIGIT_LENGTH);
+    
     setValue(nums);
 
     if (nums.length === DIGIT_LENGTH) {
@@ -88,7 +67,7 @@ const NumberBaseball = () => {
         });
 
         // 정답이면 3초 후 초기화
-        if (strike === 3) {
+        if (strike === DIGIT_LENGTH) {
           setIsGame(true);
           clearTimeout(timeoutRef.current);
           timeoutRef.current = setTimeout(resetGame, 3000);
