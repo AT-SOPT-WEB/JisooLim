@@ -1,5 +1,6 @@
 import { useTheme } from "@emotion/react";
 import { useState } from "react";
+import axios from "axios";
 import {
   container,
   searchBox,
@@ -28,10 +29,8 @@ const GithubSearch = () => {
   const fetchUserInfo = async (username) => {
     setUserInfo({ status: "pending", data: null });
     try {
-      const response = await fetch(`https://api.github.com/users/${username}`);
-      if (!response.ok) throw new Error("Network error");
-      const data = await response.json();
-      setUserInfo({ status: "resolved", data });
+      const response = await axios.get(`https://api.github.com/users/${username}`);
+      setUserInfo({ status: "resolved", data: response.data });
       addSearch(username);
     } catch {
       setUserInfo({ status: "rejected", data: null });
