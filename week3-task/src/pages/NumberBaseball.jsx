@@ -1,17 +1,20 @@
 import { useTheme } from "@emotion/react";
-import {
-  container,
-  searchBox,
-  errorText,
-  historyList,
-  historyCard,
-} from "../styles/NumberBaseball.style";
 import { useState, useEffect, useRef } from "react";
+import { container } from "../styles/NumberBaseball.style";
+import BaseballInput from "../components/NumberBaseball/BaseballInput";
+import HistoryList from "../components/NumberBaseball/HistoryList";
+
+const DIGIT_LENGTH = 3;
+const MAX_ATTEMPTS = 10;
+const ANSWER_MESSAGE = "🎉 정답입니다! 3초 뒤에 게임이 리셋됩니다.";
+const GAME_OVER_MESSAGE =
+  "😫 10번을 넘겨서 실패하였습니다. 게임이 초기화됩니다.";
+
 
 // 정답 숫자 생성
 const generateAnswer = () => {
   const nums = [];
-  while (nums.length < 3) {
+  while (nums.length < DIGIT_LENGTH) {
     const n = Math.floor(Math.random() * 10).toString();
     if (!nums.includes(n)) nums.push(n);
   }
@@ -22,16 +25,12 @@ const generateAnswer = () => {
 function getStrikeAndBall(input, answer) {
   let strike = 0,
     ball = 0;
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < DIGIT_LENGTH; i++) {
     if (input[i] === answer[i]) strike++;
     else if (answer.includes(input[i])) ball++;
   }
   return { strike, ball };
 }
-
-const ANSWER_MESSAGE = "🎉 정답입니다! 3초 뒤에 게임이 리셋됩니다.";
-const GAME_OVER_MESSAGE =
-  "😫 10번을 넘겨서 실패하였습니다. 게임이 초기화됩니다.";
 
 const NumberBaseball = () => {
   const theme = useTheme();
@@ -43,21 +42,22 @@ const NumberBaseball = () => {
   const [history, setHistory] = useState([]);
   const timeoutRef = useRef(null);
 
+  // 게임 시작 시 정답 생성
   useEffect(() => {
     const answer = generateAnswer();
     setAnswer(answer);
-    console.log("정답:", answer);
     return () => clearTimeout(timeoutRef.current);
   }, []);
 
+  // 입력값 변경 핸들러
   const handleChange = (e) => {
     const onlyNums = e.target.value.replace(/[^0-9]/g, "");
-    const nums = onlyNums.slice(0, 3);
+    const nums = onlyNums.slice(0, DIGIT_LENGTH);
     setValue(nums);
 
-    if (nums.length === 3) {
+    if (nums.length === DIGIT_LENGTH) {
       const digits = nums.split("");
-      const isDiff = new Set(digits).size === 3;
+      const isDiff = new Set(digits).size === DIGIT_LENGTH;
 
       if (!isDiff) {
         setError(true);
@@ -66,7 +66,9 @@ const NumberBaseball = () => {
         setError(false);
         const { strike, ball } = getStrikeAndBall(nums, answer);
         const resultText =
-          strike === 3 ? ANSWER_MESSAGE : `${strike} 스트라이크 ${ball} 볼`;
+          strike === DIGIT_LENGTH
+            ? ANSWER_MESSAGE
+            : `${strike} 스트라이크 ${ball} 볼`;
         setResult(resultText);
 
         // 기록 추가
@@ -76,7 +78,7 @@ const NumberBaseball = () => {
             { value: nums, result: `${strike}S ${ball}B` },
           ];
 
-          if (strike !== 3 && newHistory.length >= 10) {
+          if (strike !== DIGIT_LENGTH && newHistory.length >= MAX_ATTEMPTS) {
             setResult(GAME_OVER_MESSAGE);
             setIsGame(true);
             clearTimeout(timeoutRef.current);
@@ -98,6 +100,7 @@ const NumberBaseball = () => {
     }
   };
 
+  // 게임 리셋
   const resetGame = () => {
     setValue("");
     setError(false);
@@ -109,37 +112,15 @@ const NumberBaseball = () => {
 
   return (
     <div css={container}>
-      <input
-        type="text"
-        inputMode="numeric"
-        aria-label="숫자 야구 게임"
-        placeholder="3자리 숫자를 입력해주세요."
+      <BaseballInput
         value={value}
         onChange={handleChange}
-        css={searchBox(theme)}
-        maxLength={3}
+        error={error}
+        result={result}
         disabled={isGame}
+        theme={theme}
       />
-
-      {error ? (
-        <div css={errorText(theme)}>
-          ⚠️ 서로 다른 숫자 3자리를 입력해주세요!
-        </div>
-      ) : (
-        result && <div css={errorText(theme)}>{result}</div>
-      )}
-
-      {history.length > 0 && (
-        <div css={historyList} aria-label="입력 기록">
-          {history.map((item, idx) => (
-            <div css={historyCard(theme)} key={idx}>
-              <span>{item.value}</span>
-              <span className="dash">-</span>
-              <span>{item.result}</span>
-            </div>
-          ))}
-        </div>
-      )}
+      <HistoryList history={history} theme={theme} />
     </div>
   );
 };
