@@ -1,10 +1,14 @@
-// router/Router.tsx
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "../pages/Home";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import MyPage from "../pages/MyPage";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
   {
     path: "/signup",
     element: <Signup />,
