@@ -6,7 +6,7 @@ export const header = style({
   justifyContent: "space-between",
   alignItems: "center",
   padding: 30,
-  backgroundColor: vars.color.blue,
+  backgroundColor: vars.color.blue01,
 });
 
 export const headerLeft = style({
