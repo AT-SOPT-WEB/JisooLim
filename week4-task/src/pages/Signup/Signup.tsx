@@ -33,6 +33,10 @@ const Signup = () => {
   };
 
   const isIdValid = id.trim() !== "";
+  const isPasswordValid =
+    password.trim() !== "" &&
+    passwordCheck.trim() !== "" &&
+    password === passwordCheck;
 
   const handleNextClick = () => {
     if (isIdValid) setStep(2);
@@ -94,8 +98,9 @@ const Signup = () => {
           />
           <button
             type="button"
-            className={`${button} ${isIdValid ? buttonActive : ""}`}
+            className={`${button} ${isPasswordValid ? buttonActive : ""}`}
             onClick={handleNextClick}
+            disabled={!isPasswordValid}
           >
             다음
           </button>
