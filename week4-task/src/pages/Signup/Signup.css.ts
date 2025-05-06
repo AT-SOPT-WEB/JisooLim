@@ -15,6 +15,15 @@ export const title = style({
   fontWeight: 600,
 });
 
+export const label = style({
+  fontWeight: 600,
+  fontSize: vars.fontSize.md,
+  display: "block",
+  marginBottom: "1rem",
+  textAlign: "left",
+  width: "40rem",
+});
+
 export const input = style({
   width: "40rem",
   padding: "1.2rem 1.5rem",
@@ -40,6 +49,15 @@ export const button = style({
 export const buttonActive = style({
   backgroundColor: vars.color.blue01,
   cursor: "pointer",
+});
+
+export const bottomSection = style({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "0.5rem",
+  marginTop: "2rem",
 });
 
 export const linkText = style({

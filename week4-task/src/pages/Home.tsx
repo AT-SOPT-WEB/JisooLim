@@ -1,11 +1,11 @@
 import Header from "../components/Header/Header";
-import Login from "./Login/Login";
+import Signup from "./Signup/Signup";
 
 const Home = () => {
   return (
     <>
       <Header />
-      <Login />
+      <Signup />
     </>
   );
 };
