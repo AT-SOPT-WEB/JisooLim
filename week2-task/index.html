@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do List</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- 상단 버튼 섹션 -->
+    <section class="filter">
+      <button class="filter__button">전체</button>
+      <button class="filter__button">완료</button>
+      <button class="filter__button">미완료</button>
+
+      <div class="dropdown">
+        <button class="filter__button filter__button--dropdown" id="dropdownToggle">
+          중요도 <i class="fas fa-angle-down" id="dropdownIcon"></i>
+        </button>
+        <ul class="dropdown__menu" id="priorityMenu">
+          <li data-priority="1">1</li>
+          <li data-priority="2">2</li>
+          <li data-priority="3">3</li>
+        </ul>
+      </div>
+    </section>
+    <!-- 메인 박스 섹션 -->
+    <section class="main">
+      <section class="main__top">
+        <input
+          class="main__top-input"
+          type="text"
+          placeholder="할 일을 입력하세요"
+        />
+        <div class="main__top-priority">
+          <button class="main__top-button" id="prioritySelectBtn">
+            중요도 선택 <i class="fas fa-angle-down"></i>
+          </button>
+
+          <ul class="main__top-menu">
+            <li class="main__top-menu-item" data-priority="1">1</li>
+            <li class="main__top-menu-item" data-priority="2">2</li>
+            <li class="main__top-menu-item" data-priority="3">3</li>
+          </ul>
+          
+        </div>
+        <button class="main__top-button">추가</button>
+      </section>
+      <section class="main__middle">
+        <button class="main__middle-button">삭제</button>
+        <button class="main__middle-button">완료</button>
+      </section>
+      <!-- 할 일 목록 -->
+      <section class="main__middle">
+        <table class="todo-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" /></th>
+              <th>중요도</th>
+              <th>완료됨</th>
+              <th>할 일</th>
+            </tr>
+          </thead>
+          <tbody id="todoTableBody"></tbody>
+        </table>
+      </section>
+    </section>
+    <!-- 완료 모달 -->
+    <div class="modal" id="completeModal" style="display: none">
+      <div class="modal__backdrop"></div>
+      <div class="modal__content">
+        <p>이미 완료된 항목입니다.</p>
+        <button id="closeModalBtn">확인</button>
+      </div>
+    </div>
+
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
