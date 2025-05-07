@@ -16,12 +16,12 @@ export const title = style({
 });
 
 export const label = style({
-  fontWeight: 600,
-  fontSize: vars.fontSize.md,
   display: "block",
+  width: "40rem",
   marginBottom: "1rem",
   textAlign: "left",
-  width: "40rem",
+  fontWeight: 600,
+  fontSize: vars.fontSize.md,
 });
 
 export const input = style({
@@ -32,6 +32,37 @@ export const input = style({
   borderColor: vars.color.gray,
   borderRadius: "1rem",
   fontSize: vars.fontSize.md,
+  
+});
+
+export const passwordInputWrapper = style({
+  display: "flex",
+  alignItems: "center",
+  width: "40rem",
+  marginBottom: "1.5rem",
+  border: "1px solid",
+  borderColor: vars.color.gray,
+  borderRadius: "1rem",
+  overflow: "hidden",
+});
+
+export const passwordInput = style({
+  flex: 1,
+  padding: "1.2rem 1.5rem",
+  border: "none",
+  fontSize: vars.fontSize.md,
+  outline: "none",
+});
+
+export const passwordToggleBtn = style({
+  background: "none",
+  border: "none",
+  padding: "0 1.2rem",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100%",
 });
 
 export const button = style({

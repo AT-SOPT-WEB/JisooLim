@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import eye from "../../assets/svg/eye.svg";
+import eyeCrossed from "../../assets/svg/eye-crossed.svg";
 import {
   container,
   title,
   label,
   input,
+  passwordInputWrapper,
+  passwordInput,
   button,
   buttonActive,
   bottomSection,
   linkText,
+  passwordToggleBtn,
 } from "./Signup.css";
 
 const Signup = () => {
@@ -17,6 +22,7 @@ const Signup = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -75,15 +81,32 @@ const Signup = () => {
           <label htmlFor="signup-password" className={label}>
             비밀번호
           </label>
-          <input
-            id="signup-password"
-            type="password"
-            placeholder="비밀번호를 입력해주세요"
-            value={password}
-            autoComplete="new-password"
-            onChange={handlePasswordChange}
-            className={input}
-          />
+          <div className={passwordInputWrapper}>
+            <input
+              id="signup-password"
+              type={showPassword ? "text" : "password"}
+              placeholder="비밀번호를 입력해주세요"
+              value={password}
+              autoComplete="new-password"
+              onChange={handlePasswordChange}
+              className={passwordInput}
+            />
+            <button
+              type="button"
+              className={passwordToggleBtn}
+              onClick={() => setShowPassword((prev) => !prev)}
+              tabIndex={-1}
+              aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
+            >
+              <img
+                src={showPassword ? eyeCrossed : eye}
+                alt={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
+                width={20}
+                height={20}
+              />
+            </button>
+          </div>
+
           <label htmlFor="signup-password-check" className="sr-only">
             비밀번호 확인
           </label>
