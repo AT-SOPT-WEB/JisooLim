@@ -63,7 +63,7 @@ const NumberBaseball = () => {
   // 게임 시작 시 정답 생성
   useEffect(() => {
     const newAnswer = generateAnswer();
-    dispatch({ type: "SET_ANSWER", payload: newAnswer });
+    dispatch({ type: SET_ANSWER, payload: newAnswer });
     return () => clearTimeout(timeoutRef.current);
   }, []);
 
