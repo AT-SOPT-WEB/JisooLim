@@ -44,7 +44,7 @@ const Signup = () => {
     setNickname(e.target.value);
 
   // 유효성 검사
-  const isIdValid = id.trim() !== "";
+  const isIdValid = id.trim() !== "" && id.length <= 20;
   const isPasswordLengthValid = password.length <= 20;
   const isPasswordMatch = password === passwordCheck;
   const isPasswordFilled =
@@ -53,12 +53,18 @@ const Signup = () => {
     isPasswordFilled && isPasswordLengthValid && isPasswordMatch;
   const isNicknameValid = nickname.trim() !== "";
 
+  // 아이디 에러 메시지
+  let idError = "";
+  if (id.length > 20) {
+    idError = "최대 길이는 20자 이하로 입력해주세요.";
+  }
+
   // 비밀번호 에러 메시지
   let passwordError = "";
   if (password.length > 20) {
-    passwordError = "비밀번호는 20자 이하여야 합니다.";
+    passwordError = "최대 길이는 20자 이하로 입력해주세요.";
   } else if (passwordCheck && password !== passwordCheck) {
-    passwordError = "비밀번호가 일치하지 않습니다.";
+    passwordError = "비밀번호가 일치하지 않아요.";
   }
 
   const handleNextClick = () => {
@@ -95,6 +101,8 @@ const Signup = () => {
             onChange={handleIdChange}
             className={input}
           />
+          <div className={errorMessage}>{idError}</div>
+
           <button
             type="button"
             className={`${button} ${isIdValid ? buttonActive : ""}`}
@@ -148,9 +156,8 @@ const Signup = () => {
             autoComplete="new-password"
             onChange={handlePasswordCheckChange}
             className={input}
-          />          
+          />
           <div className={errorMessage}>{passwordError}</div>
-
 
           <button
             type="button"
