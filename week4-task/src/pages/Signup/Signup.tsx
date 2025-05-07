@@ -23,6 +23,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [nickname, setNickname] = useState("");
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -38,20 +39,36 @@ const Signup = () => {
     setPasswordCheck(e.target.value);
   };
 
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setNickname(e.target.value);
+
   const isIdValid = id.trim() !== "";
   const isPasswordValid =
     password.trim() !== "" &&
     passwordCheck.trim() !== "" &&
     password === passwordCheck;
+  const isNicknameValid = nickname.trim() !== "";
 
   const handleNextClick = () => {
-    if (isIdValid) setStep(2);
+    if (step === 1 && isIdValid) {
+      setStep(2);
+    } else if (step === 2 && isPasswordValid) {
+      setStep(3);
+    }
+  };
+
+  const handleSignup = () => {
+    if (isNicknameValid) {
+      // 회원가입 처리 로직 넣기
+      alert("회원가입 완료!");
+    }
   };
 
   return (
     <main className={container}>
       <h1 className={title}>회원가입</h1>
 
+      {/* 아이디 */}
       {step === 1 && (
         <>
           <label htmlFor="signup-id" className={label}>
@@ -76,6 +93,7 @@ const Signup = () => {
         </>
       )}
 
+      {/* 비밀번호 */}
       {step === 2 && (
         <>
           <label htmlFor="signup-password" className={label}>
@@ -129,6 +147,32 @@ const Signup = () => {
           </button>
         </>
       )}
+
+      {/* 닉네임 */}
+      {step === 3 && (
+        <>
+          <label htmlFor="signup-nickname" className={label}>
+            닉네임
+          </label>
+          <input
+            id="signup-nickname"
+            type="text"
+            placeholder="닉네임을 입력해주세요"
+            value={nickname}
+            onChange={handleNicknameChange}
+            className={input}
+          />
+          <button
+            type="button"
+            className={`${button} ${isNicknameValid ? buttonActive : ""}`}
+            onClick={handleSignup}
+            disabled={!isNicknameValid}
+          >
+            회원가입 하기
+          </button>
+        </>
+      )}
+
       <section className={bottomSection}>
         <div>이미 회원이신가요?</div>
         <nav>
