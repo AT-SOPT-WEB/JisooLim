@@ -65,6 +65,16 @@ export const passwordToggleBtn = style({
   height: "100%",
 });
 
+export const errorMessage = style({
+  color: vars.color.red,
+  fontSize: vars.fontSize.sm,
+  margin: "0 0 1rem 1rem",
+  width: '40rem',
+  textAlign: "left",
+  lineHeight: 1.4,
+  minHeight: "1.8rem",
+})
+
 export const button = style({
   width: "40rem",
   padding: "1.2rem",

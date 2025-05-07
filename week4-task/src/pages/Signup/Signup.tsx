@@ -9,6 +9,7 @@ import {
   input,
   passwordInputWrapper,
   passwordInput,
+  errorMessage,
   button,
   buttonActive,
   bottomSection,
@@ -42,12 +43,23 @@ const Signup = () => {
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setNickname(e.target.value);
 
+  // 유효성 검사
   const isIdValid = id.trim() !== "";
+  const isPasswordLengthValid = password.length <= 20;
+  const isPasswordMatch = password === passwordCheck;
+  const isPasswordFilled =
+    password.trim() !== "" && passwordCheck.trim() !== "";
   const isPasswordValid =
-    password.trim() !== "" &&
-    passwordCheck.trim() !== "" &&
-    password === passwordCheck;
+    isPasswordFilled && isPasswordLengthValid && isPasswordMatch;
   const isNicknameValid = nickname.trim() !== "";
+
+  // 비밀번호 에러 메시지
+  let passwordError = "";
+  if (password.length > 20) {
+    passwordError = "비밀번호는 20자 이하여야 합니다.";
+  } else if (passwordCheck && password !== passwordCheck) {
+    passwordError = "비밀번호가 일치하지 않습니다.";
+  }
 
   const handleNextClick = () => {
     if (step === 1 && isIdValid) {
@@ -136,7 +148,10 @@ const Signup = () => {
             autoComplete="new-password"
             onChange={handlePasswordCheckChange}
             className={input}
-          />
+          />          
+          <div className={errorMessage}>{passwordError}</div>
+
+
           <button
             type="button"
             className={`${button} ${isPasswordValid ? buttonActive : ""}`}
