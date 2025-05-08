@@ -2,6 +2,11 @@ import { style } from "@vanilla-extract/css";
 import { vars } from "../../styles/theme.css";
 
 export const header = style({
+  position: "fixed",         
+  top: 0,                    
+  left: 0,                   
+  width: "100%",             
+  zIndex: 1000, 
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",

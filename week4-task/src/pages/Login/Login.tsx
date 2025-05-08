@@ -8,6 +8,7 @@ import {
   buttonActive,
   linkText,
 } from "./Login.css";
+import LoginInput from "./LoginInput";
 
 const Login = () => {
   const [id, setId] = useState("");
@@ -34,14 +35,13 @@ const Login = () => {
           <label htmlFor="login-id" className="sr-only">
             아이디
           </label>
-          <input
+          <LoginInput
             id="login-id"
             type="text"
             placeholder="아이디"
-            autoComplete="username"
-            className={input}
             value={id}
             onChange={handleInputChange}
+            autoComplete="username"
           />
         </div>
         <div>
