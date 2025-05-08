@@ -1,14 +1,15 @@
+import { Outlet } from "react-router-dom";
 import Header from "../../components/Header/Header";
-import { main } from "./Home.css";
 
-const Home = () => {
+const MyPage = () => {
   return (
     <>
       <Header />
-      <main className={main}>
+      <main>
+        <Outlet />
       </main>
     </>
   );
 };
 
-export default Home;
+export default MyPage;
