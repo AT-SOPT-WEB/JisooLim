@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
   container,
@@ -9,8 +10,11 @@ import {
   linkText,
 } from "./Login.css";
 import LoginInput from "./LoginInput";
+import { signin } from "../../api/auth";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,9 +26,18 @@ const Login = () => {
 
   const isFormValid = id.trim() !== "" && password.trim() !== "";
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 로그인 로직 추가
+    if (!isFormValid) return;
+
+    const result = await signin({ loginId: id, password });
+    if (result.success && result.data?.userId) {
+      localStorage.setItem("userId", result.data.userId.toString());
+      alert("로그인 성공!");
+      navigate("/mypage"); 
+    } else {
+      alert(result.message);
+    }
   };
 
   return (
