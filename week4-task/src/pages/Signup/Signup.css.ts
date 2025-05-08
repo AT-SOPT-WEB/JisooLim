@@ -27,19 +27,18 @@ export const label = style({
 export const input = style({
   width: "40rem",
   padding: "1.2rem 1.5rem",
-  marginBottom: "1.5rem",
+  marginBottom: "1rem",
   border: "1px solid",
   borderColor: vars.color.gray,
   borderRadius: "1rem",
   fontSize: vars.fontSize.md,
-  
 });
 
 export const passwordInputWrapper = style({
   display: "flex",
   alignItems: "center",
   width: "40rem",
-  marginBottom: "1.5rem",
+  marginBottom: "1rem",
   border: "1px solid",
   borderColor: vars.color.gray,
   borderRadius: "1rem",
@@ -69,11 +68,10 @@ export const errorMessage = style({
   color: vars.color.red,
   fontSize: vars.fontSize.sm,
   margin: "0 0 1rem 1rem",
-  width: '40rem',
+  width: "40rem",
   textAlign: "left",
   lineHeight: 1.4,
-  minHeight: "1.8rem",
-})
+});
 
 export const button = style({
   width: "40rem",

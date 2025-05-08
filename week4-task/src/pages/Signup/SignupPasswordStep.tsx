@@ -42,6 +42,7 @@ const SignupPasswordStep = ({
     <div className={passwordInputWrapper}>
       <input
         id="signup-password"
+        name="password"
         type={showPassword ? "text" : "password"}
         placeholder="비밀번호를 입력해주세요"
         value={password}
@@ -64,12 +65,12 @@ const SignupPasswordStep = ({
         />
       </button>
     </div>
-
     <label htmlFor="signup-password-check" className="sr-only">
       비밀번호 확인
     </label>
     <input
       id="signup-password-check"
+      name="passwordCheck"
       type="password"
       placeholder="비밀번호 확인"
       value={passwordCheck}
@@ -77,7 +78,7 @@ const SignupPasswordStep = ({
       onChange={onPasswordCheckChange}
       className={input}
     />
-    <div className={errorMessage}>{passwordError}</div>
+    {passwordError && <div className={errorMessage}>{passwordError}</div>}{" "}
     <button
       type="button"
       className={`${button} ${isPasswordValid ? buttonActive : ""}`}

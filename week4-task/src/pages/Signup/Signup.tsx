@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import {
-  container,
-  title,
-  bottomSection,
-  linkText,
-} from "./Signup.css";
+import { container, title, bottomSection, linkText } from "./Signup.css";
 import SignupIdStep from "./SignupIdStep";
 import SignupPasswordStep from "./SignupPasswordStep";
 import SignupNicknameStep from "./SignupNicknameStep";
@@ -13,37 +8,47 @@ import SignupNicknameStep from "./SignupNicknameStep";
 const Signup = () => {
   const [step, setStep] = useState(1);
 
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
+  const [form, setForm] = useState({
+    id: "",
+    password: "",
+    passwordCheck: "",
+    nickname: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
-  const [nickname, setNickname] = useState("");
 
-  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setId(e.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleToggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   // 유효성 검사
-  const isIdValid = id.trim() !== "" && id.length <= 20;
-  const isPasswordLengthValid = password.length <= 20;
-  const isPasswordMatch = password === passwordCheck;
+  const isIdValid = form.id.trim() !== "" && form.id.length <= 20;
+  const isPasswordLengthValid = form.password.length <= 20;
+  const isPasswordMatch = form.password === form.passwordCheck;
   const isPasswordFilled =
-    password.trim() !== "" && passwordCheck.trim() !== "";
+    form.password.trim() !== "" && form.passwordCheck.trim() !== "";
   const isPasswordValid =
     isPasswordFilled && isPasswordLengthValid && isPasswordMatch;
-  const isNicknameValid = nickname.trim() !== "";
+  const isNicknameValid = form.nickname.trim() !== "";
 
   // 아이디 에러 메시지
   let idError = "";
-  if (id.length > 20) {
+  if (form.id.length > 20) {
     idError = "최대 길이는 20자 이하로 입력해주세요.";
   }
 
   // 비밀번호 에러 메시지
   let passwordError = "";
-  if (password.length > 20) {
+  if (form.password.length > 20) {
     passwordError = "최대 길이는 20자 이하로 입력해주세요.";
-  } else if (passwordCheck && password !== passwordCheck) {
+  } else if (form.passwordCheck && form.password !== form.passwordCheck) {
     passwordError = "비밀번호가 일치하지 않아요.";
   }
 
@@ -68,24 +73,24 @@ const Signup = () => {
 
       {/* 아이디 */}
       {step === 1 && (
-      <SignupIdStep
-        id={id}
-        onIdChange={handleIdChange}
-        isIdValid={isIdValid}
-        idError={idError}
-        onNext={handleNextClick}
-      />
-    )}
+        <SignupIdStep
+          id={form.id}
+          onIdChange={handleInputChange}
+          isIdValid={isIdValid}
+          idError={idError}
+          onNext={handleNextClick}
+        />
+      )}
 
       {/* 비밀번호 */}
       {step === 2 && (
         <SignupPasswordStep
-          password={password}
-          passwordCheck={passwordCheck}
+          password={form.password}
+          passwordCheck={form.passwordCheck}
           showPassword={showPassword}
-          onPasswordChange={e => setPassword(e.target.value)}
-          onPasswordCheckChange={e => setPasswordCheck(e.target.value)}
-          onToggleShowPassword={() => setShowPassword(prev => !prev)}
+          onPasswordChange={handleInputChange}
+          onPasswordCheckChange={handleInputChange}
+          onToggleShowPassword={handleToggleShowPassword}
           passwordError={passwordError}
           isPasswordValid={isPasswordValid}
           onNext={handleNextClick}
@@ -95,8 +100,8 @@ const Signup = () => {
       {/* 닉네임 */}
       {step === 3 && (
         <SignupNicknameStep
-          nickname={nickname}
-          onNicknameChange={e => setNickname(e.target.value)}
+          nickname={form.nickname}
+          onNicknameChange={handleInputChange}
           isNicknameValid={isNicknameValid}
           onSignup={handleSignup}
         />

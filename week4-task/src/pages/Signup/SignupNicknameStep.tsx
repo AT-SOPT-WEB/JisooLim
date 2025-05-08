@@ -20,6 +20,7 @@ const SignupNicknameStep = ({
     </label>
     <input
       id="signup-nickname"
+      name="nickname"
       type="text"
       placeholder="닉네임을 입력해주세요"
       value={nickname}

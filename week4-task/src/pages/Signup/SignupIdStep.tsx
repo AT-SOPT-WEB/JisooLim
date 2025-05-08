@@ -9,13 +9,20 @@ interface Props {
   onNext: () => void;
 }
 
-const SignupIdStep = ({ id, onIdChange, isIdValid, idError, onNext }: Props) => (
+const SignupIdStep = ({
+  id,
+  onIdChange,
+  isIdValid,
+  idError,
+  onNext,
+}: Props) => (
   <>
     <label htmlFor="signup-id" className={label}>
       아이디
     </label>
     <input
       id="signup-id"
+      name="id"
       type="text"
       placeholder="아이디를 입력해주세요 (8~20자, 대소문자/숫자만 가능)"
       value={id}
@@ -23,7 +30,7 @@ const SignupIdStep = ({ id, onIdChange, isIdValid, idError, onNext }: Props) => 
       onChange={onIdChange}
       className={input}
     />
-    <div className={errorMessage}>{idError}</div>
+    {idError && <div className={errorMessage}>{idError}</div>}{" "}
     <button
       type="button"
       className={`${button} ${isIdValid ? buttonActive : ""}`}
