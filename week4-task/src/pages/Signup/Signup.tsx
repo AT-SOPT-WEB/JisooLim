@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { container, title, bottomSection, linkText } from "./Signup.css";
 import SignupIdStep from "./SignupIdStep";
 import SignupPasswordStep from "./SignupPasswordStep";
 import SignupNicknameStep from "./SignupNicknameStep";
+import {signup} from "../../api/auth";
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [step, setStep] = useState(1);
 
   const [form, setForm] = useState({
@@ -60,10 +64,19 @@ const Signup = () => {
     }
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (isNicknameValid) {
-      // 회원가입 처리 로직 넣기
-      alert("회원가입 완료!");
+      const res = await signup({
+        loginId: form.id,
+        password: form.password,
+        nickname: form.nickname,
+      });
+      if (res.success) {
+        alert(`${res.data?.nickname} 님 회원가입 성공하셨습니다!`);
+        navigate("/login");
+      } else {
+        alert(res.message);
+      }
     }
   };
 
