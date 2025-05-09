@@ -1,8 +1,24 @@
+import { useState, useEffect } from "react";
 import { header, headerLeft, link, headerRight, userIcon } from "./Header.css";
 import { Link } from "react-router-dom";
 import userSvg from "../../assets/svg/user.svg";
+import { getMyNickname } from "../../api/user";
 
 const Header = () => {
+  const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    const fetchNickname = async () => {
+      const res = await getMyNickname();
+      if (res.success && res.data) {
+        setNickname(res.data.nickname);
+      } else {
+        setNickname(""); 
+      }
+    };
+    fetchNickname();
+  }, []);
+
   return (
     <header className={header}>
       <nav className={headerLeft}>
@@ -18,7 +34,7 @@ const Header = () => {
       </nav>
       <section className={headerRight}>
         <img src={userSvg} alt="유저 아이콘" className={userIcon} />
-        <div>닉네임</div>
+        <div>{nickname || "닉네임"}</div>
       </section>
     </header>
   );
