@@ -7,6 +7,8 @@ export const container = style({
   justifyContent: "center",
   alignItems: "center",
   height: "100vh",
+  paddingTop: 85, 
+
 });
 
 export const title = style({
