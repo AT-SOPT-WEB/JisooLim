@@ -6,7 +6,7 @@ import {
   input,
   button,
   buttonActive,
-} from "../Signup/Signup.css";
+} from "../../shared/styles/formCommon.css";
 import { resultListWrapper, resultItem, spinner } from "./MyPageSearch.css";
 import { searchNickname } from "../../api/search";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { label, input, errorMessage, button, buttonActive } from "./Signup.css";
+import { label, input, errorMessage, button, buttonActive } from "../../shared/styles/formCommon.css"
 
 interface Props {
   id: string;

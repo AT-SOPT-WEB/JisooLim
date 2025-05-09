@@ -1,5 +1,10 @@
 import React from "react";
-import { label, input, button, buttonActive } from "./Signup.css";
+import {
+  label,
+  input,
+  button,
+  buttonActive,
+} from "../../shared/styles/formCommon.css";
 
 interface Props {
   nickname: string;

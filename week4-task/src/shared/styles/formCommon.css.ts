@@ -7,8 +7,7 @@ export const container = style({
   justifyContent: "center",
   alignItems: "center",
   height: "100vh",
-  paddingTop: 85, 
-
+  paddingTop: 85,
 });
 
 export const title = style({
@@ -36,45 +35,6 @@ export const input = style({
   fontSize: vars.fontSize.md,
 });
 
-export const passwordInputWrapper = style({
-  display: "flex",
-  alignItems: "center",
-  width: "40rem",
-  marginBottom: "1rem",
-  border: "1px solid",
-  borderColor: vars.color.gray,
-  borderRadius: "1rem",
-  overflow: "hidden",
-});
-
-export const passwordInput = style({
-  flex: 1,
-  padding: "1.2rem 1.5rem",
-  border: "none",
-  fontSize: vars.fontSize.md,
-  outline: "none",
-});
-
-export const passwordToggleBtn = style({
-  background: "none",
-  border: "none",
-  padding: "0 1.2rem",
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100%",
-});
-
-export const errorMessage = style({
-  color: vars.color.red,
-  fontSize: vars.fontSize.sm,
-  margin: "0 0 1rem 1rem",
-  width: "40rem",
-  textAlign: "left",
-  lineHeight: 1.4,
-});
-
 export const button = style({
   width: "40rem",
   padding: "1.2rem",
@@ -90,6 +50,15 @@ export const button = style({
 export const buttonActive = style({
   backgroundColor: vars.color.blue01,
   cursor: "pointer",
+});
+
+export const errorMessage = style({
+  color: vars.color.red,
+  fontSize: vars.fontSize.sm,
+  margin: "0 0 1rem 1rem",
+  width: "40rem",
+  textAlign: "left",
+  lineHeight: 1.4,
 });
 
 export const bottomSection = style({

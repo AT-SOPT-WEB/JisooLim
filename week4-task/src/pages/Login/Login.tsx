@@ -8,7 +8,7 @@ import {
   button,
   buttonActive,
   linkText,
-} from "./Login.css";
+} from "../../shared/styles/formCommon.css";
 import LoginInput from "./LoginInput";
 import { signin } from "../../api/auth";
 

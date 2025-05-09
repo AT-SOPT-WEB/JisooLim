@@ -3,14 +3,16 @@ import eye from "../../assets/svg/eye.svg";
 import eyeCrossed from "../../assets/svg/eye-crossed.svg";
 import {
   label,
-  passwordInputWrapper,
-  passwordInput,
-  passwordToggleBtn,
   input,
   errorMessage,
   button,
   buttonActive,
-} from "./Signup.css";
+} from "../../shared/styles/formCommon.css";
+import {
+  passwordInputWrapper,
+  passwordInput,
+  passwordToggleBtn,
+} from "./SignupPasswordStep.css";
 
 interface Props {
   password: string;

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { container, title, bottomSection, linkText } from "./Signup.css";
+import { container, title, linkText, bottomSection } from "../../shared/styles/formCommon.css";
 import SignupIdStep from "./SignupIdStep";
 import SignupPasswordStep from "./SignupPasswordStep";
 import SignupNicknameStep from "./SignupNicknameStep";
-import {signup} from "../../api/auth";
+import { signup } from "../../api/auth";
 
 const Signup = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React from "react";
-import { input } from "./Login.css";
+import { input } from "../../shared/styles/formCommon.css";
 
 interface Props {
   id: string;
