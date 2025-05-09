@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   container,
   title,
@@ -6,8 +7,24 @@ import {
   button,
   buttonActive,
 } from "../../shared/styles/formCommon.css";
+import { updateNickname } from "../../api/user";
 
 const MyPageInfo = () => {
+  const [nickname, setNickname] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    const result = await updateNickname(nickname);
+    if (result?.success) {
+      alert("닉네임이 변경되었습니다.");
+    } else if (result?.message) {
+      alert(result.message);
+    }
+  };
+
   return (
     <div className={container}>
       <h1 className={title}>내 정보 수정하기</h1>
@@ -17,10 +34,14 @@ const MyPageInfo = () => {
       <input
         id="new-nickname"
         type="text"
+        value={nickname}
+        onChange={handleChange}
         placeholder="새 닉네임을 입력하세요"
         className={input}
       />
-      <button className={`${button} ${buttonActive}`}>저장</button>
+      <button className={`${button} ${buttonActive}`} onClick={handleSubmit}>
+        저장
+      </button>
     </div>
   );
 };
