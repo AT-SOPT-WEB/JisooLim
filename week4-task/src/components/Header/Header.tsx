@@ -1,10 +1,20 @@
 import { useState, useEffect } from "react";
-import { header, headerLeft, link, headerRight, userIcon } from "./Header.css";
+import { useNavigate } from "react-router-dom";
+import {
+  header,
+  headerLeft,
+  link,
+  logoutButton,
+  headerRight,
+  userIcon,
+} from "./Header.css";
 import { Link } from "react-router-dom";
 import userSvg from "../../assets/svg/user.svg";
 import { getMyNickname } from "../../api/user";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const [nickname, setNickname] = useState("");
 
   useEffect(() => {
@@ -13,11 +23,16 @@ const Header = () => {
       if (res.success && res.data) {
         setNickname(res.data.nickname);
       } else {
-        setNickname(""); 
+        setNickname("");
       }
     };
     fetchNickname();
   }, []);
+
+  const handleLogoutHandler = () => {
+    localStorage.removeItem("userId");
+    navigate("/login");
+  };
 
   return (
     <header className={header}>
@@ -28,9 +43,9 @@ const Header = () => {
         <Link to="/mypage/search" className={link}>
           SOPT 회원 조회하기
         </Link>
-        <Link to="/logout" className={link}>
+        <button className={logoutButton} onClick={handleLogoutHandler}>
           로그아웃
-        </Link>
+        </button>
       </nav>
       <section className={headerRight}>
         <img src={userSvg} alt="유저 아이콘" className={userIcon} />
