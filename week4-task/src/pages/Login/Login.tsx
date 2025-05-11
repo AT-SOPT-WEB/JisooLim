@@ -34,7 +34,7 @@ const Login = () => {
     if (result.success && result.data?.userId) {
       localStorage.setItem("userId", result.data.userId.toString());
       alert("로그인 성공!");
-      navigate("/mypage"); 
+      navigate("/mypage/info"); 
     } else {
       alert(result.message);
     }
