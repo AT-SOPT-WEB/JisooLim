@@ -1,4 +1,4 @@
-import { input } from "../../shared/styles/formCommon.css";
+import { input } from "@shared/styles/formCommon.css";
 
 interface Props {
   id: string;

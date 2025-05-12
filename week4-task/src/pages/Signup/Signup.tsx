@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useForm } from "../../hooks/useForm";
-import { signup } from "../../api/auth";
+import { useForm } from "@hooks/useForm";
+import { signup } from "@api/auth";
 import SignupIdStep from "./components/SignupIdStep";
 import SignupPasswordStep from "./components/SignupPasswordStep";
 import SignupNicknameStep from "./components/SignupNicknameStep";
@@ -10,14 +10,14 @@ import {
   title,
   linkText,
   bottomSection,
-} from "../../shared/styles/formCommon.css";
+} from "@shared/styles/formCommon.css";
 import {
   isIdValid,
   isPasswordValid,
   isNicknameValid,
   getIdError,
   getPasswordError,
-} from "../../utils/validation";
+} from "@utils/validation";
 
 const Signup = () => {
   const navigate = useNavigate();

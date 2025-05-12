@@ -1,13 +1,13 @@
 import React from "react";
-import eye from "../../../assets/svg/eye.svg";
-import eyeCrossed from "../../../assets/svg/eye-crossed.svg";
+import eye from "@assets/svg/eye.svg";
+import eyeCrossed from "@assets/svg/eye-crossed.svg";
 import {
   label,
   input,
   errorMessage,
   button,
   buttonActive,
-} from "../../../shared/styles/formCommon.css";
+} from "@shared/styles/formCommon.css";
 import {
   passwordInputWrapper,
   passwordInput,

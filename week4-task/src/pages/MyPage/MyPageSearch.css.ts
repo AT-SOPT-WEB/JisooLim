@@ -1,5 +1,5 @@
 import { style, keyframes } from "@vanilla-extract/css";
-import { vars } from "../../styles/theme.css";
+import { vars } from "@styles/theme.css";
 
 export const resultListWrapper = style({
   marginTop: "2rem",

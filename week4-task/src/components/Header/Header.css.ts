@@ -1,5 +1,5 @@
 import { style, keyframes } from "@vanilla-extract/css";
-import { vars } from "../../styles/theme.css";
+import { vars } from "@styles/theme.css";
 
 // 애니메이션
 const menuContainerSlide = keyframes({

@@ -1,6 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useForm } from "../../hooks/useForm";
-import { signin } from "../../api/auth";
+import { useForm } from "@hooks/useForm";
+import { signin } from "@api/auth";
 import LoginInput from "./LoginInput";
 import {
   container,
@@ -9,7 +9,7 @@ import {
   button,
   buttonActive,
   linkText,
-} from "../../shared/styles/formCommon.css";
+} from "@shared/styles/formCommon.css";
 
 const Login = () => {
   const navigate = useNavigate();

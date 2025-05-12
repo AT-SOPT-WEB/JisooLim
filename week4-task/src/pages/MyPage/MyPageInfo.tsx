@@ -6,8 +6,8 @@ import {
   input,
   button,
   buttonActive,
-} from "../../shared/styles/formCommon.css";
-import { updateNickname } from "../../api/user";
+} from "@shared/styles/formCommon.css";
+import { updateNickname } from "@api/user";
 
 const MyPageInfo = () => {
   const [nickname, setNickname] = useState("");

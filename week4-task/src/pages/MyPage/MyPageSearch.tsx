@@ -6,9 +6,9 @@ import {
   input,
   button,
   buttonActive,
-} from "../../shared/styles/formCommon.css";
+} from "@shared/styles/formCommon.css";
 import { resultListWrapper, resultItem, spinner } from "./MyPageSearch.css";
-import { searchNickname } from "../../api/search";
+import { searchNickname } from "@api/search";
 
 const MyPageSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
