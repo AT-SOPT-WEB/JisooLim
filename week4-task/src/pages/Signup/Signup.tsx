@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { signup } from "../../api/auth";
-import SignupIdStep from "./SignupIdStep";
-import SignupPasswordStep from "./SignupPasswordStep";
-import SignupNicknameStep from "./SignupNicknameStep";
+import SignupIdStep from "./components/SignupIdStep";
+import SignupPasswordStep from "./components/SignupPasswordStep";
+import SignupNicknameStep from "./components/SignupNicknameStep";
 import {
   container,
   title,

@@ -4,7 +4,7 @@ import {
   input,
   button,
   buttonActive,
-} from "../../shared/styles/formCommon.css";
+} from "../../../shared/styles/formCommon.css";
 
 interface Props {
   nickname: string;
