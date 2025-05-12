@@ -1,18 +1,28 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { container, title, linkText, bottomSection } from "../../shared/styles/formCommon.css";
+import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
+import { signup } from "../../api/auth";
 import SignupIdStep from "./SignupIdStep";
 import SignupPasswordStep from "./SignupPasswordStep";
 import SignupNicknameStep from "./SignupNicknameStep";
-import { signup } from "../../api/auth";
+import {
+  container,
+  title,
+  linkText,
+  bottomSection,
+} from "../../shared/styles/formCommon.css";
+import {
+  isIdValid,
+  isPasswordValid,
+  isNicknameValid,
+  getIdError,
+  getPasswordError,
+} from "../../utils/validation";
 
 const Signup = () => {
   const navigate = useNavigate();
-
   const [step, setStep] = useState(1);
-
-  const [form, setForm] = useState({
+  const [form, handleInputChange] = useForm({
     id: "",
     password: "",
     passwordCheck: "",
@@ -20,52 +30,27 @@ const Signup = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handleToggleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
 
-  // 유효성 검사
-  const isIdValid = form.id.trim() !== "" && form.id.length <= 20;
-  const isPasswordLengthValid = form.password.length <= 20;
-  const isPasswordMatch = form.password === form.passwordCheck;
-  const isPasswordFilled =
-    form.password.trim() !== "" && form.passwordCheck.trim() !== "";
-  const isPasswordValid =
-    isPasswordFilled && isPasswordLengthValid && isPasswordMatch;
-  const isNicknameValid = form.nickname.trim() !== "";
-
-  // 아이디 에러 메시지
-  let idError = "";
-  if (form.id.length > 20) {
-    idError = "최대 길이는 20자 이하로 입력해주세요.";
-  }
-
-  // 비밀번호 에러 메시지
-  let passwordError = "";
-  if (form.password.length > 20) {
-    passwordError = "최대 길이는 20자 이하로 입력해주세요.";
-  } else if (form.passwordCheck && form.password !== form.passwordCheck) {
-    passwordError = "비밀번호가 일치하지 않아요.";
-  }
+  // 유효성 검사, 에러 메시지
+  const idError = getIdError(form.id);
+  const passwordError = getPasswordError(form.password, form.passwordCheck);
 
   const handleNextClick = () => {
-    if (step === 1 && isIdValid) {
+    if (step === 1 && isIdValid(form.id)) {
       setStep(2);
-    } else if (step === 2 && isPasswordValid) {
+    } else if (
+      step === 2 &&
+      isPasswordValid(form.password, form.passwordCheck)
+    ) {
       setStep(3);
     }
   };
 
   const handleSignup = async () => {
-    if (isNicknameValid) {
+    if (isNicknameValid(form.nickname)) {
       const res = await signup({
         loginId: form.id,
         password: form.password,
@@ -89,7 +74,7 @@ const Signup = () => {
         <SignupIdStep
           id={form.id}
           onIdChange={handleInputChange}
-          isIdValid={isIdValid}
+          isIdValid={isIdValid(form.id)}
           idError={idError}
           onNext={handleNextClick}
         />
@@ -105,7 +90,7 @@ const Signup = () => {
           onPasswordCheckChange={handleInputChange}
           onToggleShowPassword={handleToggleShowPassword}
           passwordError={passwordError}
-          isPasswordValid={isPasswordValid}
+          isPasswordValid={isPasswordValid(form.password, form.passwordCheck)}
           onNext={handleNextClick}
         />
       )}
@@ -115,7 +100,7 @@ const Signup = () => {
         <SignupNicknameStep
           nickname={form.nickname}
           onNicknameChange={handleInputChange}
-          isNicknameValid={isNicknameValid}
+          isNicknameValid={isNicknameValid(form.nickname)}
           onSignup={handleSignup}
         />
       )}

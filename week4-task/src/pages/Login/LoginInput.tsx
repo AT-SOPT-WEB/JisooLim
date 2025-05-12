@@ -1,8 +1,8 @@
-import React from "react";
 import { input } from "../../shared/styles/formCommon.css";
 
 interface Props {
   id: string;
+  name?: string;
   type: string;
   placeholder: string;
   value: string;
@@ -12,6 +12,7 @@ interface Props {
 
 const LoginInput = ({
   id,
+  name,
   type,
   placeholder,
   value,
@@ -20,6 +21,7 @@ const LoginInput = ({
 }: Props) => (
   <input
     id={id}
+    name={name}
     type={type}
     placeholder={placeholder}
     className={input}

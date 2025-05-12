@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
+import { signin } from "../../api/auth";
+import LoginInput from "./LoginInput";
 import {
   container,
   title,
@@ -9,32 +10,25 @@ import {
   buttonActive,
   linkText,
 } from "../../shared/styles/formCommon.css";
-import LoginInput from "./LoginInput";
-import { signin } from "../../api/auth";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [form, handleInputChange] = useForm({
+    id: "",
+    password: "",
+  });
 
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    if (id === "login-id") setId(value);
-    if (id === "login-password") setPassword(value);
-  };
-
-  const isFormValid = id.trim() !== "" && password.trim() !== "";
+  const isFormValid = form.id.trim() !== "" && form.password.trim() !== "";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
 
-    const result = await signin({ loginId: id, password });
+    const result = await signin({ loginId: form.id, password: form.password });
     if (result.success && result.data?.userId) {
       localStorage.setItem("userId", result.data.userId.toString());
       alert("로그인 성공!");
-      navigate("/mypage/info"); 
+      navigate("/mypage/info");
     } else {
       alert(result.message);
     }
@@ -50,9 +44,10 @@ const Login = () => {
           </label>
           <LoginInput
             id="login-id"
+            name="id"
             type="text"
             placeholder="아이디"
-            value={id}
+            value={form.id}
             onChange={handleInputChange}
             autoComplete="username"
           />
@@ -63,11 +58,12 @@ const Login = () => {
           </label>
           <input
             id="login-password"
+            name="password"
             type="password"
             placeholder="비밀번호"
             autoComplete="current-password"
             className={input}
-            value={password}
+            value={form.password}
             onChange={handleInputChange}
           />
         </div>
