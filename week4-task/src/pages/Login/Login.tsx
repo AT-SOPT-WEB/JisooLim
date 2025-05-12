@@ -5,7 +5,6 @@ import LoginInput from "./LoginInput";
 import {
   container,
   title,
-  input,
   button,
   buttonActive,
   linkText,
@@ -56,15 +55,14 @@ const Login = () => {
           <label htmlFor="login-password" className="sr-only">
             비밀번호
           </label>
-          <input
+          <LoginInput
             id="login-password"
             name="password"
             type="password"
             placeholder="비밀번호"
-            autoComplete="current-password"
-            className={input}
             value={form.password}
             onChange={handleInputChange}
+            autoComplete="current-password"
           />
         </div>
         <button

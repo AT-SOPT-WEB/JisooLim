@@ -1,6 +1,7 @@
 import { apiClient } from "./apiClient";
 import axios from "axios";
 import { ApiResponse } from "../types/user.types";
+import { getNetworkError } from "@utils/apiError";
 
 export const getMyNickname = async (): Promise<ApiResponse> => {
   const userId = localStorage.getItem("userId");
@@ -14,12 +15,7 @@ export const getMyNickname = async (): Promise<ApiResponse> => {
     if (axios.isAxiosError(error) && error.response && error.response.data) {
       return error.response.data as ApiResponse;
     }
-    return {
-      success: false,
-      code: "NETWORK_ERROR",
-      message: "네트워크 오류가 발생했습니다.",
-      data: null,
-    };
+    return getNetworkError<ApiResponse>();
   }
 };
 
@@ -48,11 +44,6 @@ export const updateNickname = async (
     if (axios.isAxiosError(error) && error.response && error.response.data) {
       return error.response.data as ApiResponse;
     }
-    return {
-      success: false,
-      code: "NETWORK_ERROR",
-      message: "네트워크 오류가 발생했습니다.",
-      data: null,
-    };
+    return getNetworkError<ApiResponse>();
   }
 };

@@ -6,6 +6,7 @@ import {
   SigninRequest,
   SigninResponse,
 } from "../types/auth.types";
+import { getNetworkError } from "@utils/apiError";
 
 export async function signup(payload: SignupRequest): Promise<SignupResponse> {
   try {
@@ -18,12 +19,7 @@ export async function signup(payload: SignupRequest): Promise<SignupResponse> {
     if (axios.isAxiosError(error) && error.response && error.response.data) {
       return error.response.data as SignupResponse;
     }
-    return {
-      success: false,
-      code: "NETWORK_ERROR",
-      message: "네트워크 오류가 발생했습니다.",
-      data: null,
-    };
+    return getNetworkError<SignupResponse>();
   }
 }
 
@@ -35,11 +31,6 @@ export async function signin(payload: SigninRequest): Promise<SigninResponse> {
     if (axios.isAxiosError(error) && error.response && error.response.data) {
       return error.response.data as SigninResponse;
     }
-    return {
-      success: false,
-      code: "NETWORK_ERROR",
-      message: "네트워크 오류가 발생했습니다.",
-      data: null,
-    };
+    return getNetworkError<SignupResponse>();
   }
 }

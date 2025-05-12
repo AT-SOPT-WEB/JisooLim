@@ -12,10 +12,10 @@ import {
   headerRight,
   userIcon,
 } from "./Header.css";
-import menuSvg from "../../assets/svg/menu.svg";
-import closeSvg from "../../assets/svg/close.svg";
-import userSvg from "../../assets/svg/user.svg";
-import { getMyNickname } from "../../api/user";
+import menuSvg from "@assets/svg/menu.svg";
+import closeSvg from "@assets/svg/close.svg";
+import userSvg from "@assets/svg/user.svg";
+import { getMyNickname } from "@api/user";
 
 const menuItems = [
   {

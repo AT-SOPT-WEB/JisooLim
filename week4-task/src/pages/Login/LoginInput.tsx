@@ -17,7 +17,7 @@ const LoginInput = ({
   placeholder,
   value,
   onChange,
-  autoComplete,
+  autoComplete = "off",
 }: Props) => (
   <input
     id={id}
