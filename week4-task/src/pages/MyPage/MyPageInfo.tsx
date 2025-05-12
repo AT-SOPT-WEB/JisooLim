@@ -1,3 +1,4 @@
+import { useNickname } from "@hooks/useNickname";
 import { useState } from "react";
 import {
   container,
@@ -10,15 +11,18 @@ import {
 import { updateNickname } from "@api/user";
 
 const MyPageInfo = () => {
-  const [nickname, setNickname] = useState("");
+  const [nickname, setGlobalNickname] = useNickname();
+  const [inputValue, setInputValue] = useState(nickname);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const handleSubmit = async () => {
-    const result = await updateNickname(nickname);
+    const result = await updateNickname(inputValue);
     if (result?.success) {
+      setGlobalNickname(inputValue);
+      setInputValue("");
       alert("닉네임이 변경되었습니다.");
     } else if (result?.message) {
       alert(result.message);
@@ -34,7 +38,7 @@ const MyPageInfo = () => {
       <input
         id="new-nickname"
         type="text"
-        value={nickname}
+        value={inputValue}
         onChange={handleChange}
         placeholder="새 닉네임을 입력하세요"
         className={input}

@@ -1,3 +1,4 @@
+import { useNickname } from "@hooks/useNickname";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -32,15 +33,15 @@ const menuItems = [
 
 const Header = () => {
   const navigate = useNavigate();
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useNickname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
       const res = await getMyNickname();
-      setNickname(res.success && res.data ? res.data.nickname : "");
+      if (res.success && res.data) setNickname(res.data.nickname);
     })();
-  }, []);
+  }, [setNickname]);
 
   const handleMenuToggle = () => setMenuOpen((prev) => !prev);
   const handleMenuClose = () => setMenuOpen(false);
