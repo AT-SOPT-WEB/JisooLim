@@ -1,16 +1,6 @@
-import axios from "axios";
 import { apiClient } from "./apiClient";
-
-interface NicknameData {
-  nickname: string;
-}
-
-interface ApiResponse {
-  success: boolean;
-  code: string;
-  message: string;
-  data: NicknameData | null;
-}
+import axios from "axios";
+import { ApiResponse } from "../types/user.types";
 
 export const getMyNickname = async (): Promise<ApiResponse> => {
   const userId = localStorage.getItem("userId");
@@ -21,10 +11,15 @@ export const getMyNickname = async (): Promise<ApiResponse> => {
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
+    if (axios.isAxiosError(error) && error.response && error.response.data) {
       return error.response.data as ApiResponse;
     }
-    throw error;
+    return {
+      success: false,
+      code: "NETWORK_ERROR",
+      message: "네트워크 오류가 발생했습니다.",
+      data: null,
+    };
   }
 };
 
@@ -50,9 +45,14 @@ export const updateNickname = async (
     );
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
+    if (axios.isAxiosError(error) && error.response && error.response.data) {
       return error.response.data as ApiResponse;
     }
-    throw error;
+    return {
+      success: false,
+      code: "NETWORK_ERROR",
+      message: "네트워크 오류가 발생했습니다.",
+      data: null,
+    };
   }
 };

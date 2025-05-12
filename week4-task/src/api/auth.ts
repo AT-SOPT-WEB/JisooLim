@@ -1,35 +1,11 @@
 import { apiClient } from "./apiClient";
 import axios from "axios";
-
-export interface SignupRequest {
-  loginId: string;
-  password: string;
-  nickname: string;
-}
-
-export interface SignupResponse {
-  success: boolean;
-  code: string;
-  message: string;
-  data: {
-    userId?: number;
-    nickname?: string;
-  } | null;
-}
-
-export interface SigninRequest {
-  loginId: string;
-  password: string;
-}
-
-export interface SigninResponse {
-  success: boolean;
-  code: string;
-  message: string;
-  data: {
-    userId?: number;
-  } | null;
-}
+import {
+  SignupRequest,
+  SignupResponse,
+  SigninRequest,
+  SigninResponse,
+} from "../types/auth.types";
 
 export async function signup(payload: SignupRequest): Promise<SignupResponse> {
   try {
@@ -39,11 +15,7 @@ export async function signup(payload: SignupRequest): Promise<SignupResponse> {
     );
     return response.data;
   } catch (error: unknown) {
-    if (
-      axios.isAxiosError(error) &&
-      error.response &&
-      error.response.data
-    ) {
+    if (axios.isAxiosError(error) && error.response && error.response.data) {
       return error.response.data as SignupResponse;
     }
     return {

@@ -1,13 +1,6 @@
 import { apiClient } from "./apiClient";
-
-export interface SearchNicknameResponse {
-  success: boolean;
-  code: string;
-  message: string;
-  data: {
-    nicknameList: string[];
-  } | null;
-}
+import axios from "axios";
+import { SearchNicknameResponse } from "../types/search.types";
 
 export async function searchNickname(keyword: string): Promise<SearchNicknameResponse> {
   try {
@@ -15,8 +8,10 @@ export async function searchNickname(keyword: string): Promise<SearchNicknameRes
       params: { keyword },
     });
     return response.data;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (_error: unknown) {
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response && error.response.data) {
+      return error.response.data;
+    }
     return {
       success: false,
       code: "NETWORK_ERROR",
