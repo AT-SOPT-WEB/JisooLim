@@ -14,7 +14,7 @@ export const searchBox = (theme) => css`
   width: 60rem;
   padding: 2rem;
   border: 0.2rem solid ${theme.colors.green01};
-  border-radius: 2rem;
+  border-radius: 32px;
   background-color: ${theme.colors.green03};
   margin-bottom: 2rem;
 `;
@@ -30,7 +30,7 @@ export const cardStyle = (theme) => css`
   padding: 2rem;
   text-align: center;
   background-color: ${theme.colors.green02};
-  border-radius: 2rem;
+  border-radius: 32px;
 `;
 
 export const closeButton = css`
@@ -128,7 +128,7 @@ export const recentSearchItem = (theme) => css`
   display: flex;
   align-items: center;
   border: 1.5px solid ${theme.colors.green01};
-  border-radius: 1.5rem;
+  border-radius: 24px;
   padding: 0.3rem 2rem;
   font-size: 1.6rem;
   background: none;
@@ -148,14 +148,13 @@ export const deleteButton = (theme) => css`
   line-height: 1;
 `;
 
-// 분기 처리
 export const spinner = (theme) => css`
   margin-top: 4rem;
-  border: 8px solid #f3f3f3;
+  border: 8px solid ${theme.colors.gray};
   border-top: 8px solid ${theme.colors.green01};
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 3.75rem;
+  height: 3.75rem;
   animation: spin 0.7s linear infinite;
   @keyframes spin {
     0% {

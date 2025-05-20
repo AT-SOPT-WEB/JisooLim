@@ -1,4 +1,3 @@
-import { useTheme } from "@emotion/react";
 import {
   headerContainer,
   buttonGroup,
@@ -7,21 +6,19 @@ import {
 } from "../../styles/Header.style";
 
 const Header = ({ onMenuClick, selectedMenu }) => {
-  const theme = useTheme();
-
   return (
-    <header css={headerContainer(theme)}>
+    <header css={headerContainer}>
       <div>👽 깃허브 검색 & 숫자 야구 👽</div>
       <nav css={buttonGroup}>
         <button
-          css={selectedMenu === "github" ? activeBtn(theme) : btn(theme)}
+          css={selectedMenu === "github" ? activeBtn : btn}
           onClick={() => onMenuClick("github")}
           aria-current={selectedMenu === "github" ? "page" : undefined}
         >
           깃허브 검색
         </button>
         <button
-          css={selectedMenu === "baseball" ? activeBtn(theme) : btn(theme)}
+          css={selectedMenu === "baseball" ? activeBtn : btn}
           onClick={() => onMenuClick("baseball")}
           aria-current={selectedMenu === "baseball" ? "page" : undefined}
         >

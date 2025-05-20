@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
-export const headerContainer = (theme) => css`
+export const headerContainer = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
   padding: 3rem 0;
-  background-color: ${theme.colors.green02};
-  color: ${theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.green02};
+  color: ${({ theme }) => theme.colors.white};
 
   & > div {
     font-size: 3rem;
@@ -23,40 +23,34 @@ export const buttonGroup = css`
   margin-top: 1rem;
 `;
 
-export const btn = (theme) => css`
+const baseBtn = css`
   display: inline-flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem 1.5rem;
   border: none;
-  border-radius: 1rem;
-  background-color: ${theme.colors.green02};
-  color: ${theme.colors.white};
+  border-radius: 16px;
+  color: ${({ theme }) => theme.colors.white};
   font-size: 1.6rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s;
+`;
+
+export const btn = css`
+  ${baseBtn};
+  background-color: ${({ theme }) => theme.colors.green02};
 
   &:hover {
-    background-color: ${theme.colors.green01};
+    background-color: ${({ theme }) => theme.colors.green01};
   }
 `;
 
-export const activeBtn = (theme) => css`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem 1.5rem;
-  border: none;
-  border-radius: 1rem;
-  background-color: ${theme.colors.green01};
-  color: ${theme.colors.white};
-  font-size: 1.6rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
+export const activeBtn = css`
+  ${baseBtn};
+  background-color: ${({ theme }) => theme.colors.green01};
 
   &:hover {
-    background-color: ${theme.colors.green01};
+    background-color: ${({ theme }) => theme.colors.green01};
   }
 `;

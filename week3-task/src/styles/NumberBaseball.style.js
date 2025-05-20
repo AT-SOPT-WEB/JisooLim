@@ -13,7 +13,7 @@ export const searchBox = (theme) => css`
   width: 60rem;
   padding: 2rem;
   border: 0.2rem solid ${theme.colors.green01};
-  border-radius: 2rem;
+  border-radius: 32px;
   background-color: ${theme.colors.green03};
 `;
 
@@ -35,17 +35,16 @@ export const historyCard = (theme) => css`
   width: 60rem;
   padding: 1.2rem 2rem;
   border: 0.2rem solid ${theme.colors.green01};
-  border-radius: 2rem;
+  border-radius: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
   font-weight: bold;
-  background: #fff;
+  background: ${theme.colors.white};
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.03);
 
   & > .dash {
     margin: 0 1rem;
   }
 `;
-

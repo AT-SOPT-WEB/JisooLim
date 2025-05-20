@@ -1,21 +1,15 @@
 import React from "react";
-import {
-  recentSearchContainer,
-  recentSearchTitle,
-  recentSearchList,
-  recentSearchItem,
-  deleteButton,
-} from "../../styles/GithubSearch.style";
+import * as S from "../../styles/GithubSearch.style";
 
 const RecentSearches = ({ searches, onClick, onDelete, theme }) =>
   searches.length > 0 && (
-    <div css={recentSearchContainer}>
-      <div css={recentSearchTitle}>최근 검색어</div>
-      <div css={recentSearchList}>
+    <div css={S.recentSearchContainer}>
+      <div css={S.recentSearchTitle}>최근 검색어</div>
+      <ul css={S.recentSearchList}>
         {searches.map((search) => (
-          <div
+          <li
             key={search}
-            css={recentSearchItem(theme)}
+            css={S.recentSearchItem(theme)}
             tabIndex={0}
             onClick={() => onClick(search)}
             onKeyDown={(e) => {
@@ -25,7 +19,7 @@ const RecentSearches = ({ searches, onClick, onDelete, theme }) =>
             <span>{search}</span>
             <button
               type="button"
-              css={deleteButton}
+              css={S.deleteButton(theme)}
               onClick={(e) => {
                 e.stopPropagation();
                 onDelete(search);
@@ -35,9 +29,9 @@ const RecentSearches = ({ searches, onClick, onDelete, theme }) =>
             >
               ×
             </button>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 

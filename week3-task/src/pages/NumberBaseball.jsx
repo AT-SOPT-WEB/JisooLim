@@ -23,6 +23,9 @@ const SET_IS_GAME = "SET_IS_GAME";
 const ADD_HISTORY = "ADD_HISTORY";
 const RESET = "RESET";
 
+const SET_GAME_SUCCESS = "SET_GAME_SUCCESS";
+const SET_GAME_OVER = "SET_GAME_OVER";
+
 // 초기 상태
 const initialState = {
   value: "",
@@ -50,6 +53,22 @@ function gameReducer(state, action) {
       return { ...state, history: [...state.history, action.payload] };
     case RESET:
       return { ...initialState, answer: action.payload };
+    case SET_GAME_SUCCESS:
+      return {
+        ...state,
+        result: ANSWER_MESSAGE,
+        isGame: true,
+        history: [...state.history, action.payload.historyItem],
+      };
+
+    case SET_GAME_OVER:
+      return {
+        ...state,
+        result: GAME_OVER_MESSAGE,
+        isGame: true,
+        history: [...state.history, action.payload.historyItem],
+      };
+
     default:
       return state;
   }
@@ -86,30 +105,26 @@ const NumberBaseball = () => {
 
     // 기록 추가
     const newHistoryItem = { value: nums, result: `${strike}S ${ball}B` };
-    dispatch({ type: ADD_HISTORY, payload: newHistoryItem });
-
-    if (strike !== DIGIT_LENGTH && state.history.length + 1 >= MAX_ATTEMPTS) {
-      handleGameOver();
-    }
 
     if (strike === DIGIT_LENGTH) {
-      handleSuccess();
+      dispatch({
+        type: SET_GAME_SUCCESS,
+        payload: { historyItem: newHistoryItem },
+      });
+      timeoutRef.current = setTimeout(resetGame, 3000);
+    } else if (state.history.length + 1 >= MAX_ATTEMPTS) {
+      dispatch({
+        type: SET_GAME_OVER,
+        payload: { historyItem: newHistoryItem },
+      });
+      timeoutRef.current = setTimeout(resetGame, 5000);
+    } else {
+      dispatch({ type: ADD_HISTORY, payload: newHistoryItem });
+      dispatch({
+        type: SET_RESULT,
+        payload: `${strike} 스트라이크 ${ball} 볼`,
+      });
     }
-  };
-
-  // 게임 성공
-  const handleSuccess = () => {
-    dispatch({ type: SET_IS_GAME, payload: true });
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(resetGame, 3000);
-  };
-
-  // 게임 실패
-  const handleGameOver = () => {
-    dispatch({ type: SET_RESULT, payload: GAME_OVER_MESSAGE });
-    dispatch({ type: SET_IS_GAME, payload: true });
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(resetGame, 5000);
   };
 
   // 입력값 변경 핸들러
@@ -135,6 +150,7 @@ const NumberBaseball = () => {
 
   // 게임 리셋
   const resetGame = () => {
+    clearTimeout(timeoutRef.current);
     const newAnswer = generateAnswer();
     dispatch({ type: RESET, payload: newAnswer });
   };
