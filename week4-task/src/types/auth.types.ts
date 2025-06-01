@@ -1,29 +1,19 @@
-export interface SignupRequest {
+import { BaseResponse } from "./common.types";
+
+type UserInfo = {
   loginId: string;
   password: string;
   nickname: string;
-}
+  userId: number;
+};
 
-export interface SignupResponse {
-  success: boolean;
-  code: string;
-  message: string;
-  data: {
-    userId?: number;
-    nickname?: string;
-  } | null;
-}
+export type SigninRequest = Pick<UserInfo, "loginId" | "password">;
+export type SignupRequest = Omit<UserInfo, "userId">;
 
-export interface SigninRequest {
-  loginId: string;
-  password: string;
-}
+export type SignupResponse = BaseResponse<
+  Pick<UserInfo, "userId" | "nickname"> | null
+>;
 
-export interface SigninResponse {
-  success: boolean;
-  code: string;
-  message: string;
-  data: {
-    userId?: number;
-  } | null;
-}
+export type SigninResponse = BaseResponse<
+  Pick<UserInfo, "userId"> | null
+>;

@@ -50,20 +50,22 @@ const Signup = () => {
   };
 
   const handleSignup = async () => {
-    if (isNicknameValid(form.nickname)) {
-      const res = await signup({
-        loginId: form.id,
-        password: form.password,
-        nickname: form.nickname,
-      });
-      if (res.success) {
-        alert(`${res.data?.nickname} 님 회원가입 성공하셨습니다!`);
-        navigate("/login");
-      } else {
-        alert(res.message);
-      }
-    }
-  };
+  if (!isNicknameValid(form.nickname)) return;
+
+  const res = await signup({
+    loginId: form.id,
+    password: form.password,
+    nickname: form.nickname,
+  });
+
+  if (!res.success) {
+    alert(res.message);
+    return;
+  }
+
+  alert(`${res.data?.nickname} 님 회원가입 성공하셨습니다!`);
+  navigate("/login");
+};
 
   return (
     <main className={container}>

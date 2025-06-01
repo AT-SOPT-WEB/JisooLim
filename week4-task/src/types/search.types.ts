@@ -1,8 +1,5 @@
-export interface SearchNicknameResponse {
-  success: boolean;
-  code: string;
-  message: string;
-  data: {
-    nicknameList: string[];
-  } | null;
-}
+import { BaseResponse } from "./common.types";
+
+export type SearchNicknameResponse = BaseResponse<{
+  nicknameList: string[];
+} | null>;

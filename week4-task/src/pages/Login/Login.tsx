@@ -9,6 +9,7 @@ import {
   buttonActive,
   linkText,
 } from "@shared/styles/formCommon.css";
+import { STORAGE_KEY } from "@shared/constants/storage";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Login = () => {
 
     const result = await signin({ loginId: form.id, password: form.password });
     if (result.success && result.data?.userId) {
-      localStorage.setItem("userId", result.data.userId.toString());
+      localStorage.setItem(STORAGE_KEY.USER_ID, result.data.userId.toString());
       alert("로그인 성공!");
       navigate("/mypage/info");
     } else {

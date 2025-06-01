@@ -5,8 +5,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <main className={main}>
-      </main>
+      <main className={main} />
     </>
   );
 };

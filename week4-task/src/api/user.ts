@@ -1,27 +1,25 @@
 import { apiClient } from "./apiClient";
 import axios from "axios";
-import { ApiResponse } from "../types/user.types";
+import { NicknameResponse } from "../types/user.types";
 import { getNetworkError } from "@utils/apiError";
+import { handleApiError } from "./handleApiError";
 
-export const getMyNickname = async (): Promise<ApiResponse> => {
+export const getMyNickname = async (): Promise<NicknameResponse> => {
   const userId = localStorage.getItem("userId");
 
   try {
-    const response = await apiClient.get<ApiResponse>("/api/v1/users/me", {
+    const response = await apiClient.get<NicknameResponse>("/api/v1/users/me", {
       headers: { userId },
     });
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response && error.response.data) {
-      return error.response.data as ApiResponse;
-    }
-    return getNetworkError<ApiResponse>();
+    return handleApiError<NicknameResponse>(error);
   }
 };
 
 export const updateNickname = async (
   nickname: string
-): Promise<ApiResponse> => {
+): Promise<NicknameResponse> => {
   const userId = localStorage.getItem("userId");
   if (!userId) {
     return {
@@ -32,7 +30,7 @@ export const updateNickname = async (
     };
   }
   try {
-    const response = await apiClient.patch<ApiResponse>(
+    const response = await apiClient.patch<NicknameResponse>(
       "/api/v1/users",
       { nickname },
       {
@@ -42,8 +40,8 @@ export const updateNickname = async (
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response && error.response.data) {
-      return error.response.data as ApiResponse;
+      return error.response.data as NicknameResponse;
     }
-    return getNetworkError<ApiResponse>();
+    return getNetworkError<NicknameResponse>();
   }
 };

@@ -7,8 +7,6 @@ import {
   menuButton,
   menuIcon,
   link,
-  dropdownMenu,
-  dropdownMenuItem,
   logoutButton,
   headerRight,
   userIcon,
@@ -17,6 +15,8 @@ import menuSvg from "@assets/svg/menu.svg";
 import closeSvg from "@assets/svg/close.svg";
 import userSvg from "@assets/svg/user.svg";
 import { getMyNickname } from "@api/user";
+import { STORAGE_KEY } from "@shared/constants/storage";
+import DropdownMenu from "./DropdownMenu";
 
 const menuItems = [
   {
@@ -48,7 +48,7 @@ const Header = () => {
 
   // 로그아웃
   const handleLogout = () => {
-    localStorage.removeItem("userId");
+    localStorage.removeItem(STORAGE_KEY.USER_ID);
     navigate("/login");
     setMenuOpen(false);
   };
@@ -84,27 +84,7 @@ const Header = () => {
       </section>
 
       {menuOpen && (
-        <nav className={dropdownMenu}>
-          {menuItems.map((item, idx) => (
-            <div
-              key={item.key}
-              className={dropdownMenuItem}
-              style={{ animationDelay: `${idx * 0.09 + 0.09}s` }}
-            >
-              <Link to={item.to} className={link} onClick={handleMenuClose}>
-                {item.label}
-              </Link>
-            </div>
-          ))}
-          <div
-            className={dropdownMenuItem}
-            style={{ animationDelay: `${menuItems.length * 0.09 + 0.09}s` }}
-          >
-            <button className={logoutButton} onClick={handleLogout}>
-              로그아웃
-            </button>
-          </div>
-        </nav>
+        <DropdownMenu menuItems={menuItems} onClose={handleMenuClose} onLogout={handleLogout} />
       )}
     </header>
   );

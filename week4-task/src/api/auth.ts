@@ -7,6 +7,7 @@ import {
   SigninResponse,
 } from "../types/auth.types";
 import { getNetworkError } from "@utils/apiError";
+import { handleApiError } from "./handleApiError";
 
 export async function signup(payload: SignupRequest): Promise<SignupResponse> {
   try {
@@ -16,10 +17,7 @@ export async function signup(payload: SignupRequest): Promise<SignupResponse> {
     );
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response && error.response.data) {
-      return error.response.data as SignupResponse;
-    }
-    return getNetworkError<SignupResponse>();
+    return handleApiError<SignupResponse>(error);
   }
 }
 

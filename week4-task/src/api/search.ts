@@ -1,7 +1,6 @@
 import { apiClient } from "./apiClient";
-import axios from "axios";
 import { SearchNicknameResponse } from "../types/search.types";
-import { getNetworkError } from "@utils/apiError";
+import { handleApiError } from "./handleApiError";
 
 export async function searchNickname(
   keyword: string
@@ -12,9 +11,6 @@ export async function searchNickname(
     });
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response && error.response.data) {
-      return error.response.data;
-    }
-    return getNetworkError<SearchNicknameResponse>();
+    return handleApiError<SearchNicknameResponse>(error);
   }
 }
